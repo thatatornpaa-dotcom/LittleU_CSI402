@@ -1,0 +1,873 @@
+﻿=== GLOBALS.CSS ===
+@import url('https://fonts.googleapis.com/css2?family=Anuphan:wght@100..700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #FDFBF7;
+  --foreground: #3C322A;
+}
+
+@theme {
+  --color-earth-cream: #FDFBF7;
+  --color-earth-beige: #F5F0E6;
+  --color-earth-walnut: #6A5242;
+  --color-earth-olive: #556B2F;
+  --color-earth-dark: #3C322A;
+  --color-earth-border: #EADECC;
+  
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-anuphan: 'Anuphan', sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Anuphan', 'Outfit', 'Inter', Arial, Helvetica, sans-serif;
+}
+
+=== HOME PAGE ===
+"use client";
+
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import Hero from "@/components/home/Hero";
+import PromoBanners from "@/components/home/PromoBanners";
+import TrustBadges from "@/components/home/TrustBadges";
+import ProductCard from "@/components/product/ProductCard";
+import { productService } from "@/services/product.service";
+
+
+export default function Storefront() {
+  const [activeTab, setActiveTab] = useState("new"); // new, best, sale
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const data = await productService.getProducts();
+      if (data.success) {
+        setProducts(data.products);
+      }
+    } catch (err) {
+      console.error("Failed to fetch products:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Filter products based on active tab
+  const getFilteredProducts = () => {
+    if (activeTab === "sale") {
+      // Products with discount (originalPrice is present)
+      return products.filter((p) => p.originalPrice !== null && p.originalPrice !== undefined);
+    }
+    if (activeTab === "best") {
+      // Simulating best sellers (or fallback to showing custom products)
+      return products.filter((p) => p.type === "MADE_TO_ORDER");
+    }
+    // "new" or default list (sorted newest first)
+    return [...products].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  };
+
+  const filteredProducts = getFilteredProducts();
+
+  return (
+    <div className="min-h-screen bg-[#FDFBF7] text-[#3C322A] font-sans antialiased">
+      {/* 2. Hero Section */}
+      <Hero />
+
+      {/* 3. Promo Banners Grid */}
+      <PromoBanners />
+
+      {/* 4. Trust Guarantee Badges */}
+      <TrustBadges />
+
+      {/* 5. Filter Category Tabs */}
+      <section className="font-anuphan max-w-[1440px] mx-auto px-6 pt-16 pb-8 flex justify-center gap-8 border-b border-[#F5F0E6]">
+        <button
+          onClick={() => setActiveTab("new")}
+          className={`pb-2 text-base font-extrabold uppercase tracking-widest transition-all cursor-pointer ${
+            activeTab === "new"
+              ? "text-[#556B2F] border-b-2 border-[#556B2F]"
+              : "text-[#777777] hover:text-[#3C322A]"
+          }`}
+        >
+          มาใหม่
+        </button>
+        <button
+          onClick={() => setActiveTab("best")}
+          className={`pb-2 text-base font-extrabold uppercase tracking-widest transition-all cursor-pointer ${
+            activeTab === "best"
+              ? "text-[#556B2F] border-b-2 border-[#556B2F]"
+              : "text-[#777777] hover:text-[#3C322A]"
+          }`}
+        >
+          สั่งทำพิเศษ
+        </button>
+        <button
+          onClick={() => setActiveTab("sale")}
+          className={`pb-2 text-base font-extrabold uppercase tracking-widest transition-all cursor-pointer ${
+            activeTab === "sale"
+              ? "text-[#556B2F] border-b-2 border-[#556B2F]"
+              : "text-[#777777] hover:text-[#3C322A]"
+          }`}
+        >
+          ลดราคา
+        </button>
+      </section>
+
+      {/* 6. Products Catalog Grid */}
+      <section className="max-w-[1440px] mx-auto px-6 py-12">
+        {loading ? (
+          <div className="text-center py-20 text-zinc-400 font-medium font-anuphan">
+            <span className="inline-block w-8 h-8 border-4 border-[#556B2F]/20 border-t-[#556B2F] rounded-full animate-spin mb-4" />
+            <p>กำลังโหลดสินค้าแนะนำสำหรับคุณ...</p>
+          </div>
+        ) : filteredProducts.length === 0 ? (
+          <div className="text-center py-20 text-zinc-400 font-medium font-anuphan border border-dashed border-[#F5F0E6] rounded-2xl bg-white/50">
+            <span className="text-4xl block mb-3">💎</span>
+            <p>ยังไม่มีสินค้าในหมวดหมู่นี้ในขณะนี้</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {filteredProducts.map((prod) => (
+              <ProductCard key={prod.id} product={prod} />
+            ))}
+          </div>
+        )}
+      </section>
+    </div>
+  );
+}
+=== HERO ===
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+
+export default function Hero() {
+  return (
+    <div className="bg-[#F5F0E6]/40 font-anuphan py-12 md:py-20 px-6 overflow-hidden">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+        {/* ฝั่งข้อความโปรย */}
+        <div className="space-y-6">
+          <h1 className="text-4xl md:text-5xl font-black text-[#3C322A] leading-tight">
+            สะท้อนตัวตนผ่าน
+            <br />
+            กำไลข้อมือดีไซน์พิเศษ
+          </h1>
+          <p className="text-sm md:text-base text-zinc-600 leading-relaxed">
+            ค้นพบคอลเลกชันกำไลข้อมือและกำไลข้อเท้าแฮนด์เมดจากหินธรรมชาติและวัสดุพรีเมียม
+            ถักทอด้วยความประณีตเพื่อเติมเต็มทุกลุคในสไตล์มินิมอลที่เป็นคุณ
+          </p>
+          <div className="pt-2">
+            <Link
+              href="/products"
+              className="px-8 py-3.5 bg-[#6A5242] hover:bg-[#523e31] text-white font-bold text-sm rounded-xl transition duration-300 shadow-md inline-block cursor-pointer"
+            >
+              ช้อปคอลเลกชันทั้งหมด
+            </Link>
+          </div>
+        </div>
+
+        {/* ฝั่งขวา: รูปภาพและวงกลมพื้นหลังที่โผล่ออกมาจากด้านหลังอย่างชัดเจน */}
+        <div className="relative flex items-center justify-center min-h-[440px] md:min-h-[540px]">
+          
+          {/* 🟡 วงกลมพื้นหลังขยับเยื้องเพิ่มมิติเชิงลึก */}
+          <div className="absolute w-[80%] sm:w-[70%] md:w-[80%] aspect-square rounded-full bg-[#EADCC9] translate-x-[8%] translate-y-[4%] z-0" />
+
+          {/* 🖼️ กล่องใส่รูปทรงสี่เหลี่ยมผืนผ้าขอบมน แสดงรูปสินค้าแรกจากระบบ Seed ใหม่ */}
+          <div className="relative w-[85%] sm:w-[75%] md:w-[80%] aspect-[3/4] rounded-[2rem] overflow-hidden shadow-2xl border border-white/60 z-10 bg-white">
+            <Image
+              src="https://i.pinimg.com/736x/d6/b6/9f/d6b69f5318eb42d58e3812b16ff50a01.jpg"
+              alt="Bare & Bold Premium Bracelet"
+              fill
+              className="object-cover hover:scale-102 transition-transform duration-700"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+=== PROMO ===
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+
+export default function PromoBanners() {
+  return (
+    <section className="max-w-[1440px] font-anuphan  mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      {/* Banner A */}
+      <Link 
+        href="/products?category=bracelet" 
+        className="bg-earth-beige border border-earth-border p-6 rounded-xl flex items-center justify-between group cursor-pointer hover:shadow-md transition duration-300 block decoration-none"
+        prefetch={false}
+      >
+        <div className="space-y-3">
+          <span className="text-[12px] font-bold text-earth-olive uppercase tracking-widest block">หินธรรมชาติ (Stone)</span>
+          <h4 className="text-base font-bold text-earth-dark leading-tight">กำไลหินมงคล <br /> เสริมพลังชีวิต</h4>
+          <button className="py-1.5 px-3 bg-earth-walnut hover:opacity-90 text-earth-cream text-[12px] font-bold uppercase rounded transition cursor-pointer">ช้อปเลย</button>
+        </div>
+        <div className="relative w-20 h-20 rounded-full overflow-hidden shrink-0 group-hover:scale-110 group-hover:rotate-6 transition duration-500 shadow-md">
+          <Image src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop" alt="Stone Bracelet" fill className="object-cover" />
+        </div>
+      </Link>
+
+      {/* Banner B */}
+      <Link 
+        href="/products?category=anklet" 
+        className="bg-earth-beige border border-earth-border p-6 rounded-xl flex items-center justify-between group cursor-pointer hover:shadow-md transition duration-300 block decoration-none"
+        prefetch={false}
+      >
+        <div className="space-y-3">
+          <span className="text-[12px] font-bold text-earth-olive uppercase tracking-widest block">แฮนด์เมด (Handmade)</span>
+          <h4 className="text-base font-bold text-earth-dark leading-tight">สร้อยข้อเท้าถัก <br /> มินิมอลสไตล์</h4>
+          <button className="py-1.5 px-3 bg-earth-walnut hover:opacity-90 text-earth-cream text-[12px] font-bold uppercase rounded transition cursor-pointer">ช้อปเลย</button>
+        </div>
+        <div className="relative w-20 h-20 rounded-full overflow-hidden shrink-0 group-hover:scale-110 group-hover:-rotate-6 transition duration-500 shadow-md">
+          <Image src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=600&auto=format&fit=crop" alt="Handmade Anklet" fill className="object-cover" />
+        </div>
+      </Link>
+
+      {/* Banner C */}
+      <Link 
+        href="/products" 
+        className="bg-earth-beige border border-earth-border p-6 rounded-xl flex items-center justify-between group cursor-pointer hover:shadow-md transition duration-300 block decoration-none"
+        prefetch={false}
+      >
+        <div className="space-y-3">
+          <span className="text-[12px] font-bold text-earth-olive uppercase tracking-widest block">ของขวัญ (Gift Set)</span>
+          <h4 className="text-base font-bold text-earth-dark leading-tight">เซ็ตคู่รักสุดชิค <br /> ลดพิเศษ 15%</h4>
+          <button className="py-1.5 px-3 bg-earth-walnut hover:opacity-90 text-earth-cream text-[12px] font-bold uppercase rounded transition cursor-pointer">ช้อปเลย</button>
+        </div>
+        <div className="relative w-20 h-20 rounded-full overflow-hidden shrink-0 group-hover:scale-110 group-hover:rotate-6 transition duration-500 shadow-md">
+          <Image src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=600&auto=format&fit=crop" alt="Couple Gift Set" fill className="object-cover" />
+        </div>
+      </Link>
+
+    </section>
+  );
+}
+=== TRUST ===
+import React from "react";
+import { TruckIcon, Clock01Icon, Money01Icon, GiftIcon } from "hugeicons-react";
+
+export default function TrustBadges() {
+  return (
+    <section className="max-w-[1440px] font-anuphan  mx-auto px-6 py-6 border-t border-b border-earth-beige grid grid-cols-2 md:grid-cols-4 gap-6 items-center text-center md:text-left">
+      
+      <div className="flex flex-col md:flex-row items-center gap-3">
+        <TruckIcon size={32} strokeWidth={1.5} className="text-zinc-700" />
+        <div>
+          <h5 className="text-[14px] font-extrabold text-earth-dark uppercase tracking-wider">จัดส่งฟรี</h5>
+          <p className="text-[12px] text-earth-olive font-bold mt-0.5">จัดส่งฟรีทุกคำสั่งซื้อ</p>
+        </div>
+      </div>
+
+      <div className="flex flex-col md:flex-row items-center gap-3">
+        <Clock01Icon size={32} strokeWidth={1.5} className="text-zinc-700" />
+        <div>
+          <h5 className="text-[14px]  font-extrabold text-earth-dark uppercase tracking-wider">ซัพพอร์ต 24/7</h5>
+          <p className="text-[12px] text-earth-olive font-bold mt-0.5">บริการช่วยเหลือตลอด 24 ชั่วโมง</p>
+        </div>
+      </div>
+
+      <div className="flex flex-col md:flex-row items-center gap-3">
+        <Money01Icon size={32} strokeWidth={1.5} className="text-zinc-700" />
+        <div>
+          <h5 className="text-[14px]  font-extrabold text-earth-dark uppercase tracking-wider">รับประกันคืนเงิน</h5>
+          <p className="text-[12px] text-earth-olive font-bold mt-0.5">คืนเงินเต็มจำนวนภายใน 15 วัน</p>
+        </div>
+      </div>
+
+      <div className="flex flex-col md:flex-row items-center gap-3">
+        <GiftIcon size={32} strokeWidth={1.5} className="text-zinc-700" />
+        <div>
+          <h5 className="text-[14px]  font-extrabold text-earth-dark uppercase tracking-wider">ส่วนลดพิเศษ</h5>
+          <p className="text-[12px] text-earth-olive font-bold mt-0.5">เมื่อสั่งซื้อสินค้าครบ 1,500 บาท</p>
+        </div>
+      </div>
+
+    </section>
+  );
+}
+=== PRODUCT CARD ===
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { wishlistService } from "@/services/wishlist.service";
+import StarRating from "./StarRating";
+
+export default function ProductCard({ product }) {
+  const [isLiked, setIsLiked] = useState(false);
+
+  useEffect(() => {
+    setIsLiked(wishlistService.isWishlisted(product.id));
+    const handleUpdate = () => {
+      setIsLiked(wishlistService.isWishlisted(product.id));
+    };
+    window.addEventListener("wishlistUpdated", handleUpdate);
+    return () => window.removeEventListener("wishlistUpdated", handleUpdate);
+  }, [product.id]);
+
+  const toggleWishlist = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isLiked) {
+      wishlistService.removeFromWishlist(product.id);
+    } else {
+      wishlistService.addToWishlist(product);
+    }
+  };
+
+  const mainImage = product.images && product.images.length > 0 
+    ? product.images[0].url 
+    : "/images/placeholder.jpg"; 
+
+  const isMadeToOrder = product.type === "MADE_TO_ORDER";
+
+  const isOutOfStock = product.type === "READY_TO_SHIP" && product.stock === 0;
+
+  const formatPrice = (priceValue) => {
+    if (priceValue === null || priceValue === undefined) return 0;
+    const parsed = Number(priceValue);
+    return isNaN(parsed) ? 0 : parsed;
+  };
+
+  return (
+    <Link
+      href={`/products/${product.name.replace(/\s+/g, "-")}`}
+      className="bg-white border border-[#EFE9DC] rounded-[2rem] overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full group block"
+    >
+      
+      {/*  ส่วนรูปภาพหน้าปกสินค้า */}
+      <div className="relative w-full aspect-square overflow-hidden bg-[#F5F0E6]/30">
+        
+        {/* ป้ายแท็กสั่งทำพิเศษ (แสดงเฉพาะสินค้าที่เป็น MADE_TO_ORDER) */}
+        {isMadeToOrder && (
+          <div className="absolute top-4 left-4 bg-[#6A5242] text-white text-[11px] font-bold px-3 py-1.5 rounded-lg z-10 shadow-sm font-anuphan">
+            สั่งทำพิเศษ
+          </div>
+        )}
+
+        {/* Heart Icon Button */}
+        <button
+          onClick={toggleWishlist}
+          className="absolute top-4 right-4 w-9 h-9 bg-white/95 backdrop-blur-sm shadow hover:bg-white rounded-full flex items-center justify-center z-10 transition duration-200 cursor-pointer active:scale-95 group/heart"
+        >
+          <svg
+            className={`w-5 h-5 transition-colors ${
+              isLiked ? "fill-red-500 text-red-500" : "text-[#6A5242] group-hover/heart:text-red-500"
+            }`}
+            fill={isLiked ? "currentColor" : "none"}
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+          </svg>
+        </button>
+
+        {/* ป้ายกำกับสินค้าหมดระดับพรีเมียม (Out of Stock Overlay) */}
+        {isOutOfStock && (
+          <div className="absolute inset-0 bg-[#3C322A]/40 backdrop-blur-[1.5px] z-10 flex items-center justify-center">
+            <span className="bg-[#FFFFFF]/95 text-[#6A5242] border border-[#EFE9DC] text-[11px] font-extrabold px-4 py-2.5 rounded-full shadow-md font-anuphan tracking-wide uppercase">
+              สินค้าหมด (Out of Stock)
+            </span>
+          </div>
+        )}
+
+        <Image
+          src={mainImage}
+          alt={product.name || "Product Image"}
+          fill
+          className={`object-cover transition-transform duration-500 ${
+            isOutOfStock ? "" : "group-hover:scale-105"
+          }`}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+        />
+      </div>
+
+      {/* 📝 ส่วนข้อมูลรายละเอียดสินค้า */}
+      <div className="p-5 flex flex-col flex-grow justify-between font-anuphan">
+        <div className="space-y-2">
+          <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">
+            {product.brand || "BARE & BOLD"}
+          </span>
+          
+          <h3 className="text-base font-extrabold text-[#3C322A] line-clamp-2 min-h-[3rem] leading-snug">
+            {product.name}
+          </h3>
+
+          {/* แสดงดาวรีวิว 5 ดวง (ดวงที่ได้คะแนนเป็นสีทอง) */}
+          <StarRating rating={product.rating} size="text-xs" />
+        </div>
+
+        {/* ราคาสินค้าและปุ่มแอคชัน */}
+        <div className="mt-4 pt-3 border-t border-[#F5F0E6] flex flex-col gap-3">
+          <div className="flex items-baseline gap-2">
+            {/*  เปลี่ยนมาเรียกใช้ฟังก์ชันแปลงราคาอย่างปลอดภัย */}
+            <span className="text-lg font-black text-[#3C322A]">
+              {formatPrice(product.price).toLocaleString()} บาท
+            </span>
+            {product.originalPrice && (
+              <span className="text-xs text-zinc-400 line-through">
+                {formatPrice(product.originalPrice).toLocaleString()}
+              </span>
+            )}
+          </div>
+
+          <div
+            className={`w-full text-center py-2.5 font-bold text-xs rounded-xl transition duration-300 inline-block cursor-pointer shadow-sm border-2 ${
+              isOutOfStock
+                ? "bg-[#F5F0E6]/50 border-zinc-200 text-zinc-400 cursor-not-allowed"
+                : "bg-white border-[#6A5242] text-[#6A5242] group-hover:bg-[#6A5242] group-hover:text-white"
+            }`}
+          >
+            {isOutOfStock ? "สินค้าหมด" : "ดูรายละเอียดสินค้า"}
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}
+=== HEADER ===
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  Search01Icon,
+  FavouriteIcon,
+  ShoppingBag01Icon,
+  UserIcon,
+  UserCircleIcon,
+  PackageIcon,
+  Logout01Icon,
+  Settings02Icon
+} from "hugeicons-react";
+import AuthModal from "../auth/AuthModal";
+import CartDrawer from "../cart/CartDrawer";
+import { wishlistService } from "@/services/wishlist.service";
+import { useAuth } from "@/context/AuthContext";
+
+const NAV_LINKS = [
+  { label: "หน้าแรก", href: "/" },
+  { label: "ร้านค้า", href: "/products" },
+  { label: "ติดต่อเรา", href: "/contact" },
+  { label: "เอกสารระบบ", href: "/docs" },
+  { label: "การ์ดสุ่มดวง", href: "/fortune-card" }
+];
+
+export default function Header({
+  isLoggedIn: initialIsLoggedIn = false,
+  onAuthStatusChange,
+}) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(initialIsLoggedIn);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+  const [wishlistItems, setWishlistItems] = useState([]);
+  const [user, setUser] = useState(null);
+  const [avatar, setAvatar] = useState(null);
+
+  const profileMenuRef = useRef(null);
+  const wishlistMenuRef = useRef(null);
+
+  const {
+    user: authUser,
+    shop,
+    isLoggedIn: contextLoggedIn,
+    loading: authLoading,
+    logout: contextLogout,
+    refresh: refreshAuth,
+  } = useAuth();
+
+  useEffect(() => {
+    setIsLoggedIn(initialIsLoggedIn);
+  }, [initialIsLoggedIn]);
+
+  // ให้ Header ใช้สถานะล่าสุดจาก AuthContext เป็นแหล่งความจริง
+  useEffect(() => {
+    if (authLoading) return;
+    setIsLoggedIn(contextLoggedIn);
+    setUser(authUser || null);
+    if (authUser) {
+      setAvatar(localStorage.getItem("avatar"));
+    }
+  }, [authLoading, contextLoggedIn, authUser]);
+
+ useEffect(() => {
+  if (typeof window === "undefined") return;
+
+  const loadProfile = () => {
+    const token = localStorage.getItem("bare_auth_token");
+
+    if (token) {
+      setIsLoggedIn(true);
+
+      const savedUser = localStorage.getItem("bare_user");
+      if (savedUser) {
+        setUser(JSON.parse(savedUser));
+      }
+
+      const savedAvatar = localStorage.getItem("avatar");
+      setAvatar(savedAvatar);
+    }
+  };
+
+  loadProfile();
+
+  window.addEventListener("profileUpdated", loadProfile);
+
+  return () => {
+    window.removeEventListener("profileUpdated", loadProfile);
+  };
+}, []);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(event.target)
+      ) {
+        setIsProfileOpen(false);
+      }
+      if (
+        wishlistMenuRef.current &&
+        !wishlistMenuRef.current.contains(event.target)
+      ) {
+        setIsWishlistOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const updateCartCount = () => {
+    if (typeof window !== "undefined") {
+      const localCart = localStorage.getItem("bare_cart");
+      if (localCart) {
+        try {
+          const parsed = JSON.parse(localCart);
+          if (Array.isArray(parsed)) {
+            const count = parsed.reduce(
+              (acc, item) => acc + (item.quantity || 1),
+              0,
+            );
+            setCartCount(count);
+            return;
+          }
+        } catch (e) {}
+      }
+      setCartCount(0);
+    }
+  };
+
+  const updateWishlist = async () => {
+    const items = await wishlistService.fetchWishlist();
+    setWishlistItems(items);
+  };
+
+  useEffect(() => {
+    updateCartCount();
+    updateWishlist();
+    window.addEventListener("cartUpdated", updateCartCount);
+    window.addEventListener("storage", updateCartCount);
+    window.addEventListener("wishlistUpdated", updateWishlist);
+    return () => {
+      window.removeEventListener("cartUpdated", updateCartCount);
+      window.removeEventListener("storage", updateCartCount);
+      window.removeEventListener("wishlistUpdated", updateWishlist);
+    };
+  }, [isLoggedIn]);
+
+  const handleLogout = async () => {
+localStorage.removeItem("bare_auth_token");
+localStorage.removeItem("bare_user");
+localStorage.removeItem("bare_user_email");
+localStorage.removeItem("profile");
+localStorage.removeItem("avatar");
+localStorage.removeItem("addresses");
+localStorage.removeItem("bare_cart");
+
+await contextLogout();
+setUser(null);
+setAvatar(null);
+    setIsLoggedIn(false);
+    setIsProfileOpen(false);
+    if (onAuthStatusChange) {
+      onAuthStatusChange(false);
+    }
+    router.push("/");
+    window.dispatchEvent(new Event("cartUpdated"));
+  };
+
+  const handleAuthSuccess = (user) => {
+  const hasToken = !!localStorage.getItem("bare_auth_token");
+
+  setIsLoggedIn(hasToken);
+  setUser(user);
+  refreshAuth();
+
+  const savedAvatar = localStorage.getItem("avatar");
+  setAvatar(savedAvatar);
+
+  if (onAuthStatusChange) {
+    onAuthStatusChange(hasToken, user);
+  }
+};
+
+  return (
+    <>
+      {/* Main Navigation Bar */}
+      <header className="sticky top-0 z-50 bg-[#FFFFFF]/95 backdrop-blur-md border-b border-[#F5F0E6] shadow-sm">
+        <div className="max-w-[1440px] mx-auto px-6 h-18 flex items-center justify-between">
+          {/* Logo */}
+          <Link
+            href="/"
+            className="flex items-center gap-2.5 hover:text-earth-olive transition select-none text-earth-dark"
+            prefetch={false}
+          >
+            <svg className="w-6 h-6 transition-transform duration-300 hover:rotate-12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" />
+              <path d="M8.5 12C8.5 13.933 10.067 15.5 12 15.5C13.933 15.5 15.5 13.933 15.5 12C15.5 10.067 13.933 8.5 12 8.5C10.067 8.5 8.5 10.067 8.5 12Z" fill="currentColor" />
+              <path d="M12 5C8.134 5 5 8.134 5 12C5 15.866 8.134 19 12 19C15.866 19 19 15.866 19 12C19 8.134 15.866 5 12 5Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+            </svg>
+            <span className="text-xl font-bold uppercase tracking-[0.15em] font-sans">
+              Bare & Bold
+            </span>
+          </Link>
+
+          {/* Nav links */}
+          <nav className="hidden md:flex items-center gap-8 text-[14px] font-anuphan font-bold">
+            {NAV_LINKS.map((link) => {
+              const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
+              return (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className={`transition ${
+                    isActive
+                      ? "text-earth-olive border-b-2 border-earth-olive pb-1"
+                      : "text-earth-dark hover:text-earth-olive"
+                  }`}
+                  prefetch={false}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Action Icons & Profile Access */}
+          <div className="flex items-center gap-5 text-earth-dark">
+            <Link href="/products" className="w-10 h-10 flex items-center justify-center hover:text-earth-olive transition">
+              <Search01Icon size={20} strokeWidth={2} />
+            </Link>
+            
+            {/* Wishlist Dropdown */}
+            <div className="relative" ref={wishlistMenuRef}>
+              <button
+                onClick={() => setIsWishlistOpen(!isWishlistOpen)}
+                className="relative w-10 h-10 flex items-center justify-center hover:text-earth-olive transition cursor-pointer"
+              >
+                <FavouriteIcon size={20} strokeWidth={2} />
+                {wishlistItems.length > 0 && (
+                  <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                )}
+              </button>
+
+              {isWishlistOpen && (
+                <div className="absolute right-0 mt-3 w-72 rounded-xl bg-white border border-[#E7DDC8] shadow-xl overflow-hidden z-50 p-4 font-anuphan">
+                  <h3 className="font-extrabold text-sm text-[#3C322A] mb-3 pb-2 border-b border-[#F5F0E6]">รายการโปรดของคุณ ({wishlistItems.length})</h3>
+                  
+                  {wishlistItems.length === 0 ? (
+                    <div className="text-center py-6 text-xs text-zinc-400 font-bold">
+                      ไม่มีสินค้าในรายการโปรด
+                    </div>
+                  ) : (
+                    <div className="max-h-60 overflow-y-auto space-y-3">
+                      {wishlistItems.map((item) => (
+                        <div key={item.id} className="flex gap-3 items-center justify-between group">
+                          <Link 
+                            href={`/products/${item.name?.toLowerCase().replace(/ /g, "-")}`}
+                            onClick={() => setIsWishlistOpen(false)}
+                            className="flex items-center gap-2 flex-1 min-w-0"
+                          >
+                            <img 
+                              src={item.images?.[0]?.url || item.images?.[0] || item.imageUrl || "/placeholder.jpg"} 
+                              alt={item.name} 
+                              className="w-10 h-10 object-cover rounded-lg bg-zinc-50 border border-zinc-100 flex-shrink-0"
+                            />
+                            <div className="min-w-0 flex-1">
+                              <p className="text-xs font-bold text-[#3C322A] truncate hover:text-[#556B2F]">{item.name}</p>
+                              <p className="text-[10px] text-zinc-400">฿{Number(item.price).toLocaleString()}</p>
+                            </div>
+                          </Link>
+                          <button
+                            onClick={() => wishlistService.removeFromWishlist(item.id)}
+                            className="text-zinc-300 hover:text-red-500 p-1.5 transition cursor-pointer rounded-full hover:bg-red-50"
+                            title="ลบจากรายการโปรด"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="relative hover:text-earth-olive transition cursor-pointer"
+            >
+              <ShoppingBag01Icon size={20} strokeWidth={2} />
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 w-4 h-4 bg-earth-walnut text-white text-[9px] font-bold rounded-full flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+
+            <div className="relative" ref={profileMenuRef}>
+              {isLoggedIn ? (
+                <button
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  className="w-10 h-10 flex items-center justify-center hover:text-earth-olive transition cursor-pointer"
+                >
+                  {avatar ? (
+  <img
+    src={avatar}
+    alt="Profile"
+    className="w-9 h-9 rounded-full object-cover"
+  />
+) : (
+  <UserCircleIcon size={21} strokeWidth={2} />
+)}
+                </button>
+              ) : (
+                <button
+                  onClick={() => setIsAuthOpen(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-earth-beige hover:bg-earth-border border border-earth-border transition text-xs font-bold text-earth-dark cursor-pointer"
+                >
+                  <UserIcon size={14} strokeWidth={2.5} />
+                  <span>เข้าสู่ระบบ</span>
+                </button>
+              )}
+
+              {isProfileOpen && isLoggedIn && (
+                <div className="absolute right-0 mt-3 w-56 rounded-xl bg-white border border-earth-border shadow-xl overflow-hidden z-50 py-1 font-anuphan">
+                  <div className="px-4 py-3 border-b border-gray-100">
+                    <p className="text-xs text-zinc-400">บัญชีผู้ใช้</p>
+                    <p className="text-sm font-bold text-earth-dark truncate mt-0.5">
+                      {user
+  ? `${user.firstName ?? ""} ${user.lastName ?? ""}`.trim()
+  : localStorage.getItem("bare_user_email")}
+                    </p>
+                  </div>
+
+                  {/* Seller zone */}
+                  {shop?.status === "APPROVED" ? (
+                    <>
+                      <Link
+                        href="/seller"
+                        onClick={() => setIsProfileOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 hover:bg-[#F8F5EE] text-sm font-bold text-earth-olive transition"
+                      >
+                        <Settings02Icon size={18} />
+                        Seller Center
+                      </Link>
+                      <Link
+                        href={`/shop/${shop.slug}`}
+                        onClick={() => setIsProfileOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 hover:bg-[#F8F5EE] text-sm font-bold text-earth-dark transition"
+                      >
+                        <ShoppingBag01Icon size={18} />
+                        ดูร้านของฉัน
+                      </Link>
+                    </>
+                  ) : shop ? (
+                    <Link
+                      href="/become-seller"
+                      onClick={() => setIsProfileOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-[#F8F5EE] text-sm font-bold text-amber-600 transition"
+                    >
+                      <ShoppingBag01Icon size={18} />
+                      ร้านรอการอนุมัติ
+                    </Link>
+                  ) : (
+                    <Link
+                      href="/become-seller"
+                      onClick={() => setIsProfileOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-[#F8F5EE] text-sm font-bold text-earth-dark transition"
+                    >
+                      <ShoppingBag01Icon size={18} />
+                      สมัครเปิดร้าน
+                    </Link>
+                  )}
+
+                  <Link
+                    href="/orders"
+                    onClick={() => setIsProfileOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-[#F8F5EE] text-sm font-bold text-earth-dark transition"
+                  >
+                    <PackageIcon size={18} />
+                    ประวัติคำสั่งซื้อ
+                  </Link>
+                  <Link
+                    href="/profile"
+                    onClick={() => setIsProfileOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-[#F8F5EE] text-sm font-bold text-earth-dark transition"
+                  >
+                    <Settings02Icon size={18} />
+                    โปรไฟล์
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[#FFF5F5] text-left text-sm font-bold text-red-600 border-t border-gray-100 cursor-pointer"
+                  >
+                    <Logout01Icon size={18} />
+                    ออกจากระบบ
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={isAuthOpen}
+        onClose={() => setIsAuthOpen(false)}
+        onAuthSuccess={handleAuthSuccess}
+      />
+
+      {/* Cart Drawer */}
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+    </>
+  );
+}

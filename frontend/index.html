@@ -1,0 +1,1300 @@
+﻿<!DOCTYPE html>
+<html lang="th" class="h-full antialiased">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Little U | Accessories Shop</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #FDF9F8;
+      --blush: #FAF0F2;
+      --rose-soft: #F3DCE1;
+      --rose-gold: #C88A96;
+      --rose-deep: #B57380;
+      --cocoa: #4A383C;
+      --cocoa-soft: #7E666B;
+      --border-soft: #EFE0E3;
+    }
+    body {
+      background-color: var(--cream);
+      color: var(--cocoa);
+      font-family: 'Anuphan', sans-serif;
+    }
+    .soft-pop {
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+    .soft-pop:hover {
+      transform: translateY(-6px) scale(1.015);
+      box-shadow: 0 18px 36px -12px rgba(200, 138, 150, 0.22);
+      border-color: #E5C2CA;
+    }
+    .soft-pop .hover-pill {
+      opacity: 0;
+      transform: translateY(8px) scale(0.96);
+      transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .soft-pop:hover .hover-pill {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    @keyframes cardReveal {
+      from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    .card-reveal {
+      opacity: 0;
+      animation: cardReveal 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col bg-[#FDF9F8] text-[#4A383C]">
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="sticky top-0 z-40 bg-[#FDF9F8]/90 backdrop-blur-md border-b border-[#EFE0E3]">
+    <div class="max-w-7xl mx-auto px-6 h-18 py-4 flex items-center justify-between gap-4">
+      <button onclick="navigate('home')" class="flex items-center gap-2.5 text-[#4A383C] hover:text-[#C88A96] transition cursor-pointer">
+        <svg class="w-5 h-5 text-[#C88A96]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+        </svg>
+        <span class="text-xl font-semibold tracking-wide text-[#4A383C]">Little U</span>
+      </button>
+
+      <nav class="hidden md:flex items-center gap-8 text-[13px] font-medium text-[#7E666B]">
+        <button data-nav="home" onclick="navigate('home')" class="nav-link text-[#C88A96] font-semibold cursor-pointer">หน้าแรก</button>
+        <button data-nav="shop" onclick="navigate('shop')" class="nav-link hover:text-[#C88A96] transition cursor-pointer">ร้านค้า</button>
+        <button data-nav="categories" onclick="navigate('categories')" class="nav-link hover:text-[#C88A96] transition cursor-pointer">หมวดหมู่</button>
+        <button data-nav="documents" onclick="navigate('documents')" class="nav-link hover:text-[#C88A96] transition cursor-pointer">เอกสาร</button>
+      </nav>
+
+      <div class="flex items-center gap-2 sm:gap-3 text-[#4A383C]">
+        <button onclick="navigate('shop'); setTimeout(() => document.getElementById('filterSearch')?.focus(), 80)" title="ค้นหา" class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[#FAF0F2] hover:text-[#C88A96] transition cursor-pointer">
+          <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 10.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"/></svg>
+        </button>
+
+        <button onclick="navigate('profile', 'wishlist')" title="รายการโปรด" class="relative w-9 h-9 rounded-full flex items-center justify-center hover:bg-[#FAF0F2] hover:text-[#C88A96] transition cursor-pointer">
+          <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+          <span id="wishDot" class="hidden absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#C88A96]"></span>
+        </button>
+
+        <button onclick="navigate('cart')" title="ตะกร้าสินค้า" class="relative w-9 h-9 rounded-full flex items-center justify-center hover:bg-[#FAF0F2] hover:text-[#C88A96] transition cursor-pointer">
+          <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+          <span id="cartCount" class="hidden absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-[#C88A96] text-white text-[10px] font-medium flex items-center justify-center">0</span>
+        </button>
+
+        <button id="userNavBtn" onclick="handleAccountClick()" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#FAF0F2] hover:bg-[#F3DCE1] border border-[#EFE0E3] text-xs font-medium text-[#4A383C] transition cursor-pointer">
+          <svg class="w-4 h-4 text-[#C88A96]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+          <span id="userNavLabel">เข้าสู่ระบบ</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== 1. HOME PAGE ==================== -->
+  <main id="view-home" class="page-view flex-1">
+    <section class="bg-gradient-to-b from-[#FAF0F2] to-[#FDF9F8] py-14 md:py-20 px-6">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="space-y-6">
+          <span class="inline-block px-3.5 py-1 rounded-full bg-white/80 border border-[#EFE0E3] text-[11px] font-medium tracking-wider text-[#C88A96]">
+            HANDMADE &amp; MINIMAL JEWELRY
+          </span>
+          <h1 class="text-4xl md:text-5xl font-bold text-[#4A383C] leading-[1.2] tracking-tight">
+            Small Things Make<br />You Happier
+          </h1>
+          <p class="text-sm md:text-[15px] text-[#7E666B] leading-relaxed max-w-md font-normal">
+            เครื่องประดับและแอคเซสเซอรีแฮนด์เมดโทนละมุน คัดสรรอย่างประณีตเพื่อเติมเต็มความน่ารักในทุกวันของคุณ
+          </p>
+          <div class="pt-1 flex flex-wrap gap-3">
+            <button onclick="navigate('shop')" class="px-7 py-3 rounded-full bg-[#C88A96] hover:bg-[#B57380] text-white text-xs sm:text-sm font-medium shadow-sm transition cursor-pointer">
+              ช้อปคอลเลกชันทั้งหมด
+            </button>
+            <button onclick="navigate('categories')" class="px-6 py-3 rounded-full bg-white hover:bg-[#FAF0F2] text-[#4A383C] border border-[#EFE0E3] text-xs sm:text-sm font-medium transition cursor-pointer">
+              เลือกตามหมวดหมู่
+            </button>
+          </div>
+        </div>
+
+        <div class="relative flex items-center justify-center">
+          <div class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-[#F3DCE1]/70 blur-2xl"></div>
+          <div class="soft-pop relative w-full max-w-md aspect-[4/3] rounded-[2rem] overflow-hidden bg-white p-1 border border-[#EFE0E3] shadow-sm">
+            <img src="/frontend/public/FixHerd.jpg" onerror="this.onerror=null;this.src='https://i.pinimg.com/736x/d6/b6/9f/d6b69f5318eb42d58e3812b16ff50a01.jpg'" alt="Little U Collection" class="w-full h-full object-cover rounded-[1.5rem]" />
+            <div class="hover-pill absolute bottom-5 left-5 right-5 bg-white/95 backdrop-blur px-4 py-3 rounded-2xl border border-[#EFE0E3] flex items-center justify-between shadow-sm">
+              <div>
+                <div class="text-xs font-semibold text-[#4A383C]">Rose Gold Minimal Set</div>
+                <div class="text-[11px] text-[#7E666B]">คอลเลกชันแนะนำประจำฤดูกาล</div>
+              </div>
+              <button onclick="navigate('shop')" class="px-3.5 py-1.5 rounded-full bg-[#FAF0F2] text-[#C88A96] text-[11px] font-semibold cursor-pointer">ดูสินค้า</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-3 gap-7">
+      <div onclick="openShopCat('BRACELET')" class="soft-pop relative bg-[#FAF0F2]/85 border border-[#EFE0E3] rounded-[1.75rem] p-6 flex items-center justify-between gap-4 cursor-pointer">
+        <div class="space-y-2.5">
+          <span class="text-[11px] font-medium text-[#C88A96] tracking-wider uppercase block">Natural Stone</span>
+          <h3 class="text-base font-semibold text-[#4A383C] leading-snug">สร้อยคอ &amp; เครื่องประดับ</h3>
+          <span class="inline-block px-4 py-1.5 rounded-full bg-white text-[#C88A96] border border-[#EFE0E3] text-xs font-medium">ช้อปเลย</span>
+        </div>
+        <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0">
+          <img src="/frontend/public/kabrg6kabrg6kabr.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=400&auto=format&fit=crop'" class="w-full h-full object-cover" />
+        </div>
+        <div class="hover-pill absolute -top-3 right-5 px-3 py-1 rounded-full bg-white border border-[#EFE0E3] text-[11px] font-medium text-[#C88A96] shadow-sm">
+          ดูคอลเลกชันสร้อยคอ →
+        </div>
+      </div>
+
+      <div onclick="openShopCat('ANKLET')" class="soft-pop relative bg-[#FAF0F2]/85 border border-[#EFE0E3] rounded-[1.75rem] p-6 flex items-center justify-between gap-4 cursor-pointer">
+        <div class="space-y-2.5">
+          <span class="text-[11px] font-medium text-[#C88A96] tracking-wider uppercase block">Handmade</span>
+          <h3 class="text-base font-semibold text-[#4A383C] leading-snug">สร้อยข้อเท้า</h3>
+          <span class="inline-block px-4 py-1.5 rounded-full bg-white text-[#C88A96] border border-[#EFE0E3] text-xs font-medium">ช้อปเลย</span>
+        </div>
+        <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0">
+          <img src="/frontend/public/zoz.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=400&auto=format&fit=crop'" class="w-full h-full object-cover" />
+        </div>
+        <div class="hover-pill absolute -top-3 right-5 px-3 py-1 rounded-full bg-white border border-[#EFE0E3] text-[11px] font-medium text-[#C88A96] shadow-sm">
+          ดูสร้อยข้อเท้า →
+        </div>
+      </div>
+
+      <div onclick="openPromo()" class="soft-pop relative bg-[#FAF0F2]/85 border border-[#EFE0E3] rounded-[1.75rem] p-6 flex items-center justify-between gap-4 cursor-pointer">
+        <div class="space-y-2.5">
+          <span class="text-[11px] font-medium text-[#C88A96] tracking-wider uppercase block">Gift Set</span>
+          <h3 class="text-base font-semibold text-[#4A383C] leading-snug">เซ็ตของขวัญสุดน่ารัก<br />ให้เพื่อคนที่คุณรัก</h3>
+          <span class="inline-block px-4 py-1.5 rounded-full bg-white text-[#C88A96] border border-[#EFE0E3] text-xs font-medium">ช้อปเลย</span>
+        </div>
+        <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0">
+          <img src="/frontend/public/exlnncexlnncexln.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=400&auto=format&fit=crop'" class="w-full h-full object-cover" />
+        </div>
+        <div class="hover-pill absolute -top-3 right-5 px-3 py-1 rounded-full bg-white border border-[#EFE0E3] text-[11px] font-medium text-[#C88A96] shadow-sm">
+          ออกแบบของขวัญให้คนที่รัก →
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 py-6">
+      <div class="bg-white rounded-[1.75rem] border border-[#EFE0E3] px-6 py-6 grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="flex items-center gap-3.5">
+          <div class="w-10 h-10 rounded-full bg-[#FAF0F2] flex items-center justify-center text-[#C88A96] shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
+          </div>
+          <div>
+            <div class="text-xs font-semibold text-[#4A383C]">จัดส่งฟรี</div>
+            <div class="text-[11px] text-[#7E666B]">ฟรีค่าส่งทุกคำสั่งซื้อ</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3.5">
+          <div class="w-10 h-10 rounded-full bg-[#FAF0F2] flex items-center justify-center text-[#C88A96] shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+          </div>
+          <div>
+            <div class="text-xs font-semibold text-[#4A383C]">ชำระเงินปลอดภัย</div>
+            <div class="text-[11px] text-[#7E666B]">PromptPay และโอนบัญชี</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3.5">
+          <div class="w-10 h-10 rounded-full bg-[#FAF0F2] flex items-center justify-center text-[#C88A96] shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
+          </div>
+          <div>
+            <div class="text-xs font-semibold text-[#4A383C]">รับประกัน 15 วัน</div>
+            <div class="text-[11px] text-[#7E666B]">เปลี่ยนคืนสินค้าได้ง่าย</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3.5">
+          <div class="w-10 h-10 rounded-full bg-[#FAF0F2] flex items-center justify-center text-[#C88A96] shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/></svg>
+          </div>
+          <div>
+            <div class="text-xs font-semibold text-[#4A383C]">ส่วนลดพิเศษ</div>
+            <div class="text-[11px] text-[#7E666B]">เมื่อช้อปครบ 1,500 บาท</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 py-10 space-y-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-xl font-bold text-[#4A383C]">สินค้ามาใหม่</h2>
+          <p class="text-xs text-[#7E666B] mt-0.5">ชี้ที่การ์ดสินค้าเพื่อดูตัวเลือกด่วน</p>
+        </div>
+        <button onclick="navigate('shop')" class="text-xs font-medium text-[#C88A96] hover:underline cursor-pointer">ดูทั้งหมด →</button>
+      </div>
+      <div id="homeGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7"></div>
+    </section>
+  </main>
+
+  <!-- ==================== 2. CATEGORY PAGE ==================== -->
+  <section id="view-categories" class="page-view hidden flex-1 max-w-7xl w-full mx-auto px-6 py-10 space-y-6">
+    <div class="text-xs text-[#7E666B]">
+      <button onclick="navigate('home')" class="hover:text-[#C88A96] cursor-pointer">หน้าแรก</button>
+      <span class="mx-2">/</span>
+      <span class="text-[#4A383C] font-medium">หมวดหมู่สินค้า</span>
+    </div>
+    <div>
+      <h1 class="text-2xl font-bold text-[#4A383C]">เลือกช้อปตามหมวดหมู่</h1>
+      <p class="text-xs text-[#7E666B] mt-1">ดีไซน์มินิมอลโทนโรสโกลด์และพาสเทล</p>
+    </div>
+    <div id="categoryGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-6"></div>
+  </section>
+
+  <!-- ==================== DOCUMENTS PAGE ==================== -->
+  <section id="view-documents" class="page-view hidden flex-1 max-w-7xl w-full mx-auto px-6 py-10 space-y-6">
+    <div class="text-xs text-[#7E666B]">
+      <button onclick="navigate('home')" class="hover:text-[#C88A96] cursor-pointer">หน้าแรก</button>
+      <span class="mx-2">/</span>
+      <span class="text-[#4A383C] font-medium">เอกสาร</span>
+    </div>
+    <div>
+      <h1 class="text-2xl font-bold text-[#4A383C]">เอกสาร</h1>
+      <p class="text-xs text-[#7E666B] mt-1">พื้นที่สำหรับแสดงเอกสารและข้อมูลเพิ่มเติม</p>
+    </div>
+
+    <div class="bg-white rounded-[2rem] border border-[#EFE0E3] min-h-[360px] p-8 flex items-center justify-center">
+      <p class="text-xs text-[#7E666B]">ยังไม่มีเอกสารในขณะนี้</p>
+    </div>
+  </section>
+
+  <!-- ==================== 3. PRODUCT LIST PAGE ==================== -->
+  <section id="view-shop" class="page-view hidden flex-1 max-w-7xl w-full mx-auto px-6 py-10 space-y-6">
+    <div class="text-xs text-[#7E666B]">
+      <button onclick="navigate('home')" class="hover:text-[#C88A96] cursor-pointer">หน้าแรก</button>
+      <span class="mx-2">/</span>
+      <span id="shopCrumb" class="text-[#4A383C] font-medium">สินค้าทั้งหมด</span>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <aside class="lg:col-span-3 bg-white rounded-[1.75rem] border border-[#EFE0E3] p-6 space-y-5">
+        <div class="flex items-center justify-between">
+          <h2 class="text-sm font-semibold text-[#4A383C]">ตัวกรองสินค้า</h2>
+          <button onclick="resetFilters()" class="text-xs text-[#C88A96] hover:underline cursor-pointer">ล้างค่า</button>
+        </div>
+        <input id="filterSearch" oninput="renderShop()" type="text" placeholder="ค้นหาชื่อสินค้า..." class="w-full px-3.5 py-2 text-xs bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
+        <div>
+          <div class="text-xs font-semibold text-[#4A383C] mb-2">หมวดหมู่</div>
+          <div id="filterCatList" class="space-y-2 text-xs text-[#7E666B]"></div>
+        </div>
+        <div>
+          <div class="text-xs font-semibold text-[#4A383C] mb-1.5">ราคาสูงสุด: <span id="priceVal" class="text-[#C88A96]">฿2,500</span></div>
+          <input id="filterPrice" type="range" min="100" max="3000" step="50" value="2500" oninput="document.getElementById('priceVal').textContent='฿'+Number(this.value).toLocaleString(); renderShop()" class="w-full accent-[#C88A96]" />
+        </div>
+        <div>
+          <div class="text-xs font-semibold text-[#4A383C] mb-2">ประเภท</div>
+          <select id="filterType" onchange="renderShop()" class="w-full px-3 py-2 text-xs bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl">
+            <option value="ALL">ทั้งหมด</option>
+            <option value="READY_TO_SHIP">พร้อมส่ง</option>
+            <option value="MADE_TO_ORDER">สั่งทำพิเศษ (Made to Order)</option>
+          </select>
+        </div>
+      </aside>
+
+      <div class="lg:col-span-9 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-3 bg-white rounded-2xl border border-[#EFE0E3] px-5 py-3.5">
+          <div>
+            <h1 id="shopHeading" class="text-lg font-bold text-[#4A383C]">สินค้าทั้งหมด</h1>
+            <p id="shopCount" class="text-xs text-[#7E666B]">0 รายการ</p>
+          </div>
+          <select id="shopSort" onchange="renderShop()" class="px-3.5 py-1.5 text-xs bg-[#FDF9F8] border border-[#EFE0E3] rounded-full text-[#4A383C]">
+            <option value="popular">เรียงตามความนิยม</option>
+            <option value="asc">ราคา: ต่ำ → สูง</option>
+            <option value="desc">ราคา: สูง → ต่ำ</option>
+          </select>
+        </div>
+        <div id="shopGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-7"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 4. PRODUCT DETAIL PAGE ==================== -->
+  <section id="view-detail" class="page-view hidden flex-1 max-w-6xl w-full mx-auto px-6 py-10 space-y-8">
+    <button onclick="navigate('shop')" class="text-xs text-[#7E666B] hover:text-[#C88A96] cursor-pointer">← กลับไปหน้าร้านค้า</button>
+    <div id="detailContainer" class="bg-white rounded-[2rem] border border-[#EFE0E3] p-6 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-10"></div>
+  </section>
+
+  <!-- ==================== 5. CART PAGE ==================== -->
+  <section id="view-cart" class="page-view hidden flex-1 max-w-5xl w-full mx-auto px-6 py-10 space-y-6">
+    <h1 class="text-2xl font-bold text-[#4A383C]">ตะกร้าสินค้าของคุณ</h1>
+    <div id="cartPageContent" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"></div>
+  </section>
+
+  <!-- ==================== 6-8. CHECKOUT ==================== -->
+  <section id="view-checkout" class="page-view hidden flex-1 max-w-3xl w-full mx-auto px-6 py-10 space-y-8">
+    <div class="flex items-center justify-center gap-4 text-xs font-medium">
+      <span id="stepBadge1" class="px-4 py-1.5 rounded-full bg-[#C88A96] text-white">1. ที่อยู่จัดส่ง</span>
+      <span class="text-[#D8BFC4]">—</span>
+      <span id="stepBadge2" class="px-4 py-1.5 rounded-full bg-[#FAF0F2] text-[#7E666B]">2. การชำระเงิน</span>
+      <span class="text-[#D8BFC4]">—</span>
+      <span id="stepBadge3" class="px-4 py-1.5 rounded-full bg-[#FAF0F2] text-[#7E666B]">3. ยืนยันคำสั่งซื้อ</span>
+    </div>
+
+    <div id="checkoutStep1" class="bg-white rounded-[2rem] border border-[#EFE0E3] p-7 space-y-4">
+      <h2 class="text-base font-bold text-[#4A383C]">ข้อมูลการจัดส่ง</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <input id="ckName" type="text" placeholder="ชื่อ-นามสกุลผู้รับ *" class="px-4 py-2.5 text-xs bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl" />
+        <input id="ckPhone" type="text" placeholder="เบอร์โทรศัพท์ *" class="px-4 py-2.5 text-xs bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl" />
+      </div>
+      <textarea id="ckAddress" rows="3" placeholder="ที่อยู่จัดส่ง (บ้านเลขที่ ตำบล/แขวง อำเภอ/เขต จังหวัด รหัสไปรษณีย์) *" class="w-full px-4 py-2.5 text-xs bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl"></textarea>
+      <div class="flex justify-end pt-2">
+        <button onclick="goCheckoutStep(2)" class="px-7 py-2.5 rounded-full bg-[#C88A96] hover:bg-[#B57380] text-white text-xs font-medium cursor-pointer">ถัดไป: การชำระเงิน</button>
+      </div>
+    </div>
+
+    <div id="checkoutStep2" class="hidden bg-white rounded-[2rem] border border-[#EFE0E3] p-7 space-y-4">
+      <h2 class="text-base font-bold text-[#4A383C]">เลือกวิธีชำระเงิน</h2>
+      <label class="flex items-center justify-between p-4 rounded-2xl border border-[#EFE0E3] bg-[#FDF9F8] cursor-pointer">
+        <div class="flex items-center gap-3">
+          <input type="radio" name="payMethod" value="QR PromptPay" checked class="accent-[#C88A96]" />
+          <div>
+            <div class="text-xs font-semibold text-[#4A383C]">QR Code (PromptPay)</div>
+            <div class="text-[11px] text-[#7E666B]">สแกนจ่ายผ่านแอปธนาคารได้ทันที</div>
+          </div>
+        </div>
+        <span class="text-[11px] px-2.5 py-1 rounded-full bg-[#FAF0F2] text-[#C88A96]">แนะนำ</span>
+      </label>
+      <label class="flex items-center gap-3 p-4 rounded-2xl border border-[#EFE0E3] bg-[#FDF9F8] cursor-pointer">
+        <input type="radio" name="payMethod" value="Bank Transfer" class="accent-[#C88A96]" />
+        <div>
+          <div class="text-xs font-semibold text-[#4A383C]">โอนผ่านบัญชีธนาคาร</div>
+          <div class="text-[11px] text-[#7E666B]">กสิกรไทย / ไทยพาณิชย์</div>
+        </div>
+      </label>
+      <label class="flex items-center gap-3 p-4 rounded-2xl border border-[#EFE0E3] bg-[#FDF9F8] cursor-pointer">
+        <input type="radio" name="payMethod" value="Cash on Delivery (COD)" class="accent-[#C88A96]" />
+        <div>
+          <div class="text-xs font-semibold text-[#4A383C]">เก็บเงินปลายทาง (COD)</div>
+          <div class="text-[11px] text-[#7E666B]">ชำระเมื่อได้รับพัสดุ</div>
+        </div>
+      </label>
+      <div class="flex justify-between pt-2">
+        <button onclick="goCheckoutStep(1)" class="px-5 py-2.5 rounded-full border border-[#EFE0E3] text-xs text-[#7E666B] cursor-pointer">ย้อนกลับ</button>
+        <button onclick="goCheckoutStep(3)" class="px-7 py-2.5 rounded-full bg-[#C88A96] hover:bg-[#B57380] text-white text-xs font-medium cursor-pointer">ถัดไป: ตรวจสอบรายการ</button>
+      </div>
+    </div>
+
+    <div id="checkoutStep3" class="hidden bg-white rounded-[2rem] border border-[#EFE0E3] p-7 space-y-5">
+      <h2 class="text-base font-bold text-[#4A383C]">สรุปรายการคำสั่งซื้อ</h2>
+      <div id="reviewSummary" class="space-y-3 text-xs text-[#4A383C]"></div>
+      <div class="flex justify-between pt-2">
+        <button onclick="goCheckoutStep(2)" class="px-5 py-2.5 rounded-full border border-[#EFE0E3] text-xs text-[#7E666B] cursor-pointer">ย้อนกลับ</button>
+        <button onclick="confirmFinalOrder()" class="px-7 py-2.5 rounded-full bg-[#C88A96] hover:bg-[#B57380] text-white text-xs font-medium cursor-pointer">ยืนยันสั่งซื้อ</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 9. ORDER SUCCESS PAGE ==================== -->
+  <section id="view-success" class="page-view hidden flex-1 max-w-lg w-full mx-auto px-6 py-16 text-center space-y-5">
+    <div class="w-16 h-16 mx-auto rounded-full bg-[#FAF0F2] border border-[#EFE0E3] flex items-center justify-center text-[#C88A96]">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+    </div>
+    <h1 class="text-2xl font-bold text-[#4A383C]">ขอบคุณสำหรับคำสั่งซื้อ</h1>
+    <p class="text-xs text-[#7E666B]">คำสั่งซื้อของคุณถูกบันทึกเรียบร้อยแล้ว หมายเลขคำสั่งซื้อ: <span id="successOrderNo" class="font-semibold text-[#C88A96]"></span></p>
+    <div class="flex justify-center gap-3 pt-2">
+      <button onclick="navigate('orders')" class="px-6 py-2.5 rounded-full bg-[#C88A96] text-white text-xs font-medium cursor-pointer">ดูประวัติคำสั่งซื้อ</button>
+      <button onclick="navigate('shop')" class="px-6 py-2.5 rounded-full bg-white border border-[#EFE0E3] text-xs text-[#4A383C] cursor-pointer">เลือกซื้อสินค้าต่อ</button>
+    </div>
+  </section>
+
+  <!-- ==================== 10-11. MY ORDERS ==================== -->
+  <section id="view-orders" class="page-view hidden flex-1 max-w-4xl w-full mx-auto px-6 py-10 space-y-6">
+    <h1 class="text-2xl font-bold text-[#4A383C]">ประวัติคำสั่งซื้อของฉัน</h1>
+    <div id="ordersList" class="space-y-4"></div>
+  </section>
+
+  <!-- ==================== 12. PROFILE PAGE (บัญชีของฉัน) ==================== -->
+  <section id="view-profile" class="page-view hidden flex-1 max-w-5xl w-full mx-auto px-6 py-10 space-y-6">
+    <div>
+      <h1 class="text-2xl font-bold text-[#4A383C]">บัญชีของฉัน</h1>
+      <p class="text-xs text-[#7E666B] mt-0.5">จัดการข้อมูลส่วนตัว รายการโปรด คำสั่งซื้อ และสมุดที่อยู่จัดส่งของคุณ</p>
+    </div>
+
+    <div class="bg-white rounded-[2rem] border border-[#EFE0E3] p-6 md:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-5 shadow-[0_10px_30px_-15px_rgba(200,138,150,0.2)]">
+      <div class="flex items-center gap-4">
+        <div id="profAvatarText" class="w-16 h-16 rounded-full bg-[#FAF0F2] border border-[#E5C2CA] flex items-center justify-center text-[#C88A96] text-xl font-bold shrink-0">
+          A
+        </div>
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <h2 id="profDisplayName" class="text-lg font-bold text-[#4A383C]">สมาชิก Little U</h2>
+            <span class="px-2.5 py-0.5 rounded-full bg-[#FAF0F2] text-[#C88A96] text-[10px] font-semibold">Little U Member</span>
+          </div>
+          <div id="profDisplayEmail" class="text-xs text-[#7E666B]">-</div>
+          <div id="profDisplayPhone" class="text-xs text-[#7E666B]">เบอร์โทร: ยังไม่ได้ระบุ</div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2.5">
+        <button onclick="toggleEditProfileBox()" class="px-4 py-2 rounded-full bg-[#FAF0F2] hover:bg-[#F3DCE1] text-[#C88A96] text-xs font-medium transition cursor-pointer">
+          แก้ไขโปรไฟล์
+        </button>
+        <button onclick="logoutAccount()" class="px-4 py-2 rounded-full border border-[#EFE0E3] hover:bg-[#FAF0F2] text-xs text-[#7E666B] transition cursor-pointer">
+          ออกจากระบบ
+        </button>
+      </div>
+    </div>
+
+    <div id="editProfileBox" class="hidden bg-white rounded-[1.75rem] border border-[#E5C2CA] p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-bold text-[#4A383C]">แก้ไขข้อมูลส่วนตัว</h3>
+        <button onclick="toggleEditProfileBox(false)" class="text-xs text-[#7E666B] hover:text-[#4A383C] cursor-pointer">✕</button>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+        <div>
+          <label class="block font-medium mb-1">ชื่อที่แสดง</label>
+          <input id="inpProfName" type="text" class="w-full px-3.5 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
+        </div>
+        <div>
+          <label class="block font-medium mb-1">อีเมล</label>
+          <input id="inpProfEmail" type="email" class="w-full px-3.5 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
+        </div>
+        <div>
+          <label class="block font-medium mb-1">เบอร์โทรศัพท์</label>
+          <input id="inpProfPhone" type="tel" placeholder="08X-XXX-XXXX" class="w-full px-3.5 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
+        </div>
+      </div>
+      <div class="flex justify-end gap-2">
+        <button onclick="toggleEditProfileBox(false)" class="px-4 py-2 rounded-full border border-[#EFE0E3] text-xs text-[#7E666B] cursor-pointer">ยกเลิก</button>
+        <button onclick="saveProfileInfo()" class="px-5 py-2 rounded-full bg-[#C88A96] hover:bg-[#B57380] text-white text-xs font-medium cursor-pointer">บันทึกข้อมูล</button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div onclick="switchProfileTab('orders')" class="soft-pop bg-white rounded-[1.5rem] border border-[#EFE0E3] p-5 cursor-pointer">
+        <div class="text-xs text-[#7E666B]">คำสั่งซื้อของฉัน</div>
+        <div id="profStatOrders" class="text-2xl font-bold text-[#4A383C] mt-1">0</div>
+        <div class="text-[11px] text-[#C88A96] mt-0.5">ดูประวัติและสถานะจัดส่ง →</div>
+      </div>
+      <div onclick="switchProfileTab('wishlist')" class="soft-pop bg-white rounded-[1.5rem] border border-[#EFE0E3] p-5 cursor-pointer">
+        <div class="text-xs text-[#7E666B]">รายการโปรด</div>
+        <div id="profStatWish" class="text-2xl font-bold text-[#C88A96] mt-1">0</div>
+        <div class="text-[11px] text-[#7E666B] mt-0.5">เครื่องประดับที่บันทึกไว้</div>
+      </div>
+      <div onclick="switchProfileTab('address')" class="soft-pop bg-white rounded-[1.5rem] border border-[#EFE0E3] p-5 cursor-pointer">
+        <div class="text-xs text-[#7E666B]">ที่อยู่จัดส่งหลัก</div>
+        <div id="profStatAddrStatus" class="text-sm font-semibold text-[#4A383C] mt-2 truncate">ยังไม่ได้บันทึกที่อยู่</div>
+        <div class="text-[11px] text-[#C88A96] mt-1">จัดการสมุดที่อยู่ →</div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-[2rem] border border-[#EFE0E3] p-6 md:p-8 space-y-6">
+      <div class="flex flex-wrap gap-2 border-b border-[#EFE0E3] pb-4 text-xs font-medium">
+        <button data-ptab="wishlist" onclick="switchProfileTab('wishlist')" class="prof-tab-btn px-4 py-2 rounded-full bg-[#FAF0F2] text-[#C88A96] font-semibold transition cursor-pointer">
+          รายการโปรด (<span id="profWishCountTab">0</span>)
+        </button>
+        <button data-ptab="orders" onclick="switchProfileTab('orders')" class="prof-tab-btn px-4 py-2 rounded-full text-[#7E666B] hover:bg-[#FAF0F2] transition cursor-pointer">
+          คำสั่งซื้อของฉัน (<span id="profOrderCountTab">0</span>)
+        </button>
+        <button data-ptab="address" onclick="switchProfileTab('address')" class="prof-tab-btn px-4 py-2 rounded-full text-[#7E666B] hover:bg-[#FAF0F2] transition cursor-pointer">
+          สมุดที่อยู่จัดส่ง
+        </button>
+      </div>
+
+      <div id="ptab-wishlist" class="prof-tab-panel space-y-4">
+        <div id="profWishlistGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      </div>
+
+      <div id="ptab-orders" class="prof-tab-panel hidden space-y-3">
+        <div id="profOrdersList" class="space-y-3"></div>
+      </div>
+
+      <div id="ptab-address" class="prof-tab-panel hidden space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div>
+            <label class="block font-medium mb-1">ชื่อ-นามสกุล ผู้รับ *</label>
+            <input id="addrName" type="text" placeholder="เช่น ออม ใจดี" class="w-full px-3.5 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
+          </div>
+          <div>
+            <label class="block font-medium mb-1">เบอร์โทรศัพท์ติดต่อ *</label>
+            <input id="addrPhone" type="tel" placeholder="08X-XXX-XXXX" class="w-full px-3.5 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block font-medium mb-1">ที่อยู่จัดส่ง (บ้านเลขที่ / ซอย / ถนน / แขวง-ตำบล / เขต-อำเภอ / จังหวัด / รหัสไปรษณีย์) *</label>
+            <textarea id="addrDetail" rows="3" placeholder="กรอกที่อยู่สำหรับจัดส่งสินค้า Little U..." class="w-full px-3.5 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]"></textarea>
+          </div>
+        </div>
+        <div class="flex items-center justify-between pt-1">
+          <span id="addrSavedMsg" class="text-xs text-[#3E7A5A] hidden">✓ บันทึกที่อยู่จัดส่งเรียบร้อยแล้ว</span>
+          <button onclick="saveProfileAddress()" class="ml-auto px-6 py-2.5 rounded-full bg-[#C88A96] hover:bg-[#B57380] text-white text-xs font-medium cursor-pointer">
+            บันทึกที่อยู่จัดส่ง
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 13-14. LOGIN / REGISTER PAGE ==================== -->
+  <section id="view-auth" class="page-view hidden flex-1 max-w-md w-full mx-auto px-6 py-14">
+    <div class="bg-white rounded-[2rem] border border-[#EFE0E3] p-8 space-y-5 shadow-sm">
+      <div class="text-center space-y-1">
+        <div class="text-xs font-medium text-[#C88A96]">Little U Accessories</div>
+        <h1 id="authHeading" class="text-xl font-bold text-[#4A383C]">เข้าสู่ระบบ</h1>
+        <p class="text-xs text-[#7E666B]">เข้าสู่ระบบเพื่อจัดการคำสั่งซื้อและรายการโปรด</p>
+      </div>
+      <div class="space-y-3">
+        <input id="authNameInput" type="text" placeholder="ชื่อ-นามสกุล (สำหรับสมัครสมาชิก)" class="hidden w-full px-4 py-2.5 text-xs bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl" />
+        <input id="authEmailInput" type="email" placeholder="อีเมล" class="w-full px-4 py-2.5 text-xs bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl" />
+        <input id="authPassInput" type="password" placeholder="รหัสผ่าน" class="w-full px-4 py-2.5 text-xs bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl" />
+        <button onclick="submitAuthForm()" id="authSubmitBtn" class="w-full py-2.5 rounded-full bg-[#C88A96] hover:bg-[#B57380] text-white text-xs font-medium cursor-pointer">เข้าสู่ระบบ</button>
+      </div>
+      <div class="text-center text-xs text-[#7E666B]">
+        <button onclick="switchAuthMode()" id="authSwitchBtn" class="text-[#C88A96] hover:underline cursor-pointer">ยังไม่มีบัญชี? สมัครสมาชิก</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-[#FAF0F2]/70 border-t border-[#EFE0E3] py-8 px-6 text-center text-xs text-[#7E666B] mt-auto">
+    © 2026 Little U Accessories Shop • ออกแบบมาเพื่อให้เป็นของขวัญสุดพิเศษ ให้กับคนที่คุณรัก
+  </footer>
+
+  <script>
+    const API = 'http://localhost:5062/api';
+    const FALLBACK = '/frontend/public/FixHerd.jpg';
+    const CATS = [
+      { key: 'EARRINGS', label: 'ต่างหู (Earrings)', svg: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3v4m0 0a3 3 0 100 6 3 3 0 000-6zm0 6v6"/>' },
+      { key: 'NECKLACE', label: 'สร้อยคอ (Necklace)', svg: '<path stroke-linecap="round" stroke-linejoin="round" d="M6 5c0 6 3 10 6 10s6-4 6-10M12 15v3"/>' },
+      { key: 'BRACELET', label: 'กำไลข้อมือ (Bracelet)', svg: '<ellipse cx="12" cy="12" rx="7" ry="4.5"/><circle cx="12" cy="16.5" r="1"/>' },
+      { key: 'ANKLET', label: 'สร้อยข้อเท้า (Anklet)', svg: '<circle cx="12" cy="12" r="6.5"/><path stroke-linecap="round" d="M9 12h6"/>' },
+      { key: 'RING', label: 'แหวน (Ring)', svg: '<circle cx="12" cy="14" r="5"/><path stroke-linecap="round" d="M10 9l2-3 2 3"/>' },
+      { key: 'HAIR_CLIP', label: 'กิ๊บติดผม (Hair Clip)', svg: '<path stroke-linecap="round" stroke-linejoin="round" d="M5 12c3-4 11-4 14 0-3 4-11 4-14 0z"/>' },
+      { key: 'BROOCH', label: 'เข็มกลัด (Brooch)', svg: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 6l1.8 3.6L18 10.2l-3 2.9.7 4.1L12 15.3l-3.7 1.9.7-4.1-3-2.9 4.2-.6L12 6z"/>' },
+      { key: 'KEY_CHAIN', label: 'พวงกุญแจ (Key Chain)', svg: '<circle cx="12" cy="8" r="3"/><path stroke-linecap="round" d="M12 11v8m0-3h2.5"/>' }
+    ];
+
+    let products = [];
+    let selectedCats = new Set();
+    let cart = JSON.parse(localStorage.getItem('lu_soft_cart') || '[]');
+    let wishlist = JSON.parse(localStorage.getItem('lu_soft_wish') || '[]');
+    let myOrders = JSON.parse(localStorage.getItem('lu_soft_orders') || '[]');
+    let currentUser = JSON.parse(localStorage.getItem('lu_soft_user') || 'null');
+    let isRegister = false;
+    let promoCode = '';
+
+    const baht = (v) => '฿' + Number(v || 0).toLocaleString();
+
+    function getUserEmailKey() {
+      return (currentUser?.email || 'guest').trim().toLowerCase();
+    }
+
+    function getAddressKey() {
+      return `lu_saved_address_${getUserEmailKey()}`;
+    }
+
+    function loadCurrentUserAddress() {
+      if (!currentUser) return null;
+      const byEmail = JSON.parse(localStorage.getItem(getAddressKey()) || 'null');
+      if (byEmail) return byEmail;
+      const legacy = JSON.parse(localStorage.getItem('lu_saved_address') || 'null');
+      if (legacy) {
+        localStorage.setItem(getAddressKey(), JSON.stringify(legacy));
+        localStorage.removeItem('lu_saved_address');
+        return legacy;
+      }
+      return null;
+    }
+
+    function isOrderOwnedByCurrentUser(order) {
+      if (!currentUser) return false;
+      const myEmail = getUserEmailKey();
+      const orderEmail = String(order.userEmail || order.customerEmail || order.email || order.user?.email || '').trim().toLowerCase();
+      const orderUserId = order.userId || '';
+
+      if (orderEmail) return orderEmail === myEmail;
+      if (currentUser.id && orderUserId) return String(orderUserId) === String(currentUser.id);
+      return !orderUserId;
+    }
+
+    function getOrderMetaOverride(order) {
+      const meta = JSON.parse(localStorage.getItem('lu_order_meta') || '{}');
+      const rawId = String(order?.id || order?.orderId || '').trim();
+      const rawNo = String(order?.orderNo || '').trim();
+      const shortCode = (rawNo || rawId).replace(/^#/, '').slice(0, 8);
+
+      const keys = [
+        rawId,
+        rawId.toLowerCase(),
+        rawId.toUpperCase(),
+        rawNo,
+        rawNo.toLowerCase(),
+        rawNo.toUpperCase(),
+        shortCode,
+        shortCode.toLowerCase(),
+        shortCode.toUpperCase(),
+        '#' + shortCode.toUpperCase()
+      ].filter(Boolean);
+
+      for (const k of keys) {
+        if (meta[k]) return meta[k];
+      }
+      return {};
+    }
+
+    function formatShortOrderNo(order) {
+      const raw = String(order?.orderNo || order?.id || order?.orderId || '').replace(/^#/, '').trim();
+      return raw ? '#' + raw.slice(0, 8).toUpperCase() : '#ORDER';
+    }
+
+    function getSoftOrderBadge(status) {
+      const s = String(status || 'PENDING').toUpperCase();
+      if (s.includes('COMP') || s.includes('DELIV')) return { bg: '#EEF8F2', text: '#3E7A5A' };
+      if (s.includes('PAID')) return { bg: '#F0F7FC', text: '#4A7496' };
+      if (s.includes('SHIP')) return { bg: '#F6F2FC', text: '#6E5699' };
+      if (s.includes('PROC')) return { bg: '#FEF6EC', text: '#9C6B32' };
+      if (s.includes('CANC')) return { bg: '#F5F2F3', text: '#7A6A6E' };
+      return { bg: '#FDF2F4', text: '#A85A6B' };
+    }
+
+    function navigate(view, sub = '') {
+      document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`view-${view}`)?.classList.remove('hidden');
+
+      document.querySelectorAll('.nav-link').forEach(b => {
+        const active = b.dataset.nav === view;
+        b.className = active ? 'nav-link text-[#C88A96] font-semibold cursor-pointer' : 'nav-link hover:text-[#C88A96] transition cursor-pointer';
+      });
+
+      if (view === 'categories') renderCategories();
+      if (view === 'shop') renderShop();
+      if (view === 'cart') renderCartPage();
+      if (view === 'checkout') {
+        const savedAddr = loadCurrentUserAddress();
+        if (savedAddr) {
+          document.getElementById('ckName').value = savedAddr.name || '';
+          document.getElementById('ckPhone').value = savedAddr.phone || '';
+          document.getElementById('ckAddress').value = savedAddr.detail || '';
+        } else {
+          document.getElementById('ckName').value = '';
+          document.getElementById('ckPhone').value = '';
+          document.getElementById('ckAddress').value = '';
+        }
+        goCheckoutStep(1);
+      }
+      if (view === 'orders') renderOrders();
+      if (view === 'profile') renderProfile(sub || 'wishlist');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function loadProducts() {
+      try {
+        const res = await fetch(`${API}/products`);
+        if (!res.ok) throw new Error();
+        products = await res.json();
+      } catch {
+        products = [
+          { id: '1', name: 'Pearl Drop Earrings', category: 'EARRINGS', type: 'READY_TO_SHIP', price: 290, stock: 12, imageUrl: '/frontend/public/1.png', description: 'ต่างหูมุกน้ำจืดดีไซน์เรียบละมุน น้ำหนักเบาใส่สบายทั้งวัน' },
+          { id: '2', name: 'Rose Quartz Bracelet', category: 'BRACELET', type: 'MADE_TO_ORDER', price: 450, stock: 8, imageUrl: '/frontend/public/2.png', description: 'กำไลหินโรสควอตซ์คัดเม็ดกลมสวย ร้อยตามขนาดข้อมือคุณ' },
+          { id: '3', name: 'Blossom Minimal Necklace', category: 'NECKLACE', type: 'READY_TO_SHIP', price: 390, stock: 15, imageUrl: '/frontend/public/FixHerd.jpg', description: 'สร้อยคอจี้ดอกไม้สีโรสโกลด์ เพิ่มความอ่อนหวานให้ทุกลุค' },
+          { id: '4', name: 'Dainty Heart Ring', category: 'RING', type: 'READY_TO_SHIP', price: 250, stock: 20, imageUrl: '/frontend/public/1.png', description: 'แหวนหัวใจเส้นบางปรับขนาดได้ ไม่ลอกไม่ดำ' }
+        ];
+      }
+      renderHome();
+      renderCatCheckboxes();
+      renderShop();
+    }
+
+    function productCardHTML(p, idx = 0) {
+      const img = p.imageUrl || FALLBACK;
+      const liked = wishlist.includes(String(p.id));
+      const isCustom = p.type === 'MADE_TO_ORDER';
+      return `
+        <div onclick="openProductDetail('${p.id}')" style="animation-delay: ${Math.min(idx * 65, 450)}ms" class="soft-pop card-reveal group relative bg-white rounded-[1.75rem] border border-[#EFE0E3] overflow-hidden flex flex-col justify-between cursor-pointer">
+          <div class="relative aspect-square bg-[#FAF0F2] overflow-hidden">
+            ${isCustom ? `<span class="absolute top-3.5 left-3.5 z-10 px-3 py-1 rounded-full bg-white/90 text-[#C88A96] border border-[#EFE0E3] text-[10px] font-medium">สั่งทำพิเศษ</span>` : ''}
+            <button onclick="event.stopPropagation(); toggleWish('${p.id}')" class="absolute top-3.5 right-3.5 z-10 w-8 h-8 rounded-full bg-white/90 border border-[#EFE0E3] flex items-center justify-center text-[#C88A96] hover:scale-105 transition cursor-pointer">
+              <svg class="w-4 h-4" fill="${liked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+            </button>
+            <img src="${img}" onerror="this.onerror=null;this.src='${FALLBACK}'" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+
+            <div class="hover-pill absolute inset-x-3 bottom-3 z-10 bg-white/95 backdrop-blur-sm border border-[#EFE0E3] rounded-2xl p-2.5 flex items-center justify-between gap-2 shadow-sm">
+              <span class="text-[11px] font-medium text-[#7E666B] pl-1.5">ดูรายละเอียด</span>
+              <button onclick="event.stopPropagation(); quickAdd('${p.id}')" class="px-3 py-1.5 rounded-full bg-[#C88A96] hover:bg-[#B57380] text-white text-[11px] font-medium cursor-pointer">
+                + เพิ่มลงตะกร้า
+              </button>
+            </div>
+          </div>
+
+          <div class="p-5 space-y-1.5">
+            <div class="text-[10px] font-medium tracking-wider uppercase text-[#C88A96]">Little U</div>
+            <h3 class="text-sm font-semibold text-[#4A383C] truncate">${p.name}</h3>
+            <div class="pt-1 flex items-center justify-between">
+              <span class="text-sm font-bold text-[#4A383C]">${baht(p.price)}</span>
+              <span class="text-[11px] text-[#7E666B]">คงเหลือ ${p.stock ?? 10}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderHome() {
+      document.getElementById('homeGrid').innerHTML = products.slice(0, 4).map((p, i) => productCardHTML(p, i)).join('');
+    }
+
+    function renderCategories() {
+      document.getElementById('categoryGrid').innerHTML = CATS.map(c => `
+        <div onclick="openShopCat('${c.key}')" class="soft-pop relative bg-white rounded-[1.75rem] border border-[#EFE0E3] p-6 flex flex-col items-center text-center gap-3 cursor-pointer">
+          <div class="w-12 h-12 rounded-full bg-[#FAF0F2] text-[#C88A96] flex items-center justify-center">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">${c.svg}</svg>
+          </div>
+          <div class="text-xs font-semibold text-[#4A383C]">${c.label}</div>
+          <div class="hover-pill text-[11px] text-[#C88A96] font-medium">เลือกดูสินค้า →</div>
+        </div>
+      `).join('');
+    }
+
+    function renderCatCheckboxes() {
+      document.getElementById('filterCatList').innerHTML = CATS.map(c => `
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input type="checkbox" value="${c.key}" onchange="toggleCat(this.value, this.checked)" class="accent-[#C88A96]" />
+          <span>${c.label}</span>
+        </label>
+      `).join('');
+    }
+
+    function toggleCat(key, checked) {
+      if (checked) selectedCats.add(key);
+      else selectedCats.delete(key);
+      renderShop();
+    }
+
+    function openShopCat(key) {
+      selectedCats = new Set([key]);
+      document.querySelectorAll('#filterCatList input').forEach(cb => cb.checked = cb.value === key);
+      document.getElementById('shopHeading').textContent = CATS.find(c => c.key === key)?.label || key;
+      document.getElementById('shopCrumb').textContent = key;
+      navigate('shop');
+    }
+
+    function openPromo() {
+      document.getElementById('filterType').value = 'MADE_TO_ORDER';
+      document.getElementById('shopHeading').textContent = 'โปรโมชัน & สั่งทำพิเศษ';
+      navigate('shop');
+    }
+
+    function resetFilters() {
+      selectedCats.clear();
+      document.querySelectorAll('#filterCatList input').forEach(cb => cb.checked = false);
+      document.getElementById('filterSearch').value = '';
+      document.getElementById('filterPrice').value = 2500;
+      document.getElementById('priceVal').textContent = '฿2,500';
+      document.getElementById('filterType').value = 'ALL';
+      document.getElementById('shopHeading').textContent = 'สินค้าทั้งหมด';
+      document.getElementById('shopCrumb').textContent = 'สินค้าทั้งหมด';
+      renderShop();
+    }
+
+    function renderShop() {
+      const q = (document.getElementById('filterSearch')?.value || '').trim().toLowerCase();
+      const maxP = Number(document.getElementById('filterPrice')?.value || 99999);
+      const tVal = document.getElementById('filterType')?.value || 'ALL';
+      const sort = document.getElementById('shopSort')?.value || 'popular';
+
+      let list = products.filter(p => {
+        const okCat = selectedCats.size === 0 || selectedCats.has((p.category || '').toUpperCase());
+        const okP = Number(p.price || 0) <= maxP;
+        const okT = tVal === 'ALL' || p.type === tVal;
+        const okQ = !q || (p.name || '').toLowerCase().includes(q);
+        return okCat && okP && okT && okQ;
+      });
+      if (sort === 'asc') list.sort((a, b) => Number(a.price) - Number(b.price));
+      if (sort === 'desc') list.sort((a, b) => Number(b.price) - Number(a.price));
+
+      document.getElementById('shopCount').textContent = `${list.length} รายการ`;
+      document.getElementById('shopGrid').innerHTML = list.length
+        ? list.map((p, i) => productCardHTML(p, i)).join('')
+        : `<div class="col-span-full bg-white rounded-3xl border border-[#EFE0E3] p-12 text-center text-xs text-[#7E666B]">ไม่พบสินค้าที่ตรงกับเงื่อนไข</div>`;
+    }
+
+    function openProductDetail(id) {
+      const p = products.find(x => String(x.id) === String(id));
+      if (!p) return;
+      const img = p.imageUrl || FALLBACK;
+      document.getElementById('detailContainer').innerHTML = `
+        <div class="aspect-square rounded-3xl overflow-hidden bg-[#FAF0F2] border border-[#EFE0E3]">
+          <img src="${img}" onerror="this.onerror=null;this.src='${FALLBACK}'" class="w-full h-full object-cover" />
+        </div>
+        <div class="flex flex-col justify-between space-y-5">
+          <div class="space-y-3">
+            <span class="inline-block px-3 py-1 rounded-full bg-[#FAF0F2] text-[#C88A96] text-[11px] font-medium">${p.category || 'Accessory'}</span>
+            <h1 class="text-2xl font-bold text-[#4A383C]">${p.name}</h1>
+            <div class="text-xl font-bold text-[#C88A96]">${baht(p.price)}</div>
+            <p class="text-xs sm:text-sm text-[#7E666B] leading-relaxed">${p.description || 'เครื่องประดับแฮนด์เมดโทนละมุนจาก Little U'}</p>
+            <div class="pt-2 space-y-1.5">
+              <div class="text-xs font-semibold text-[#4A383C]">โทนสีวัสดุ</div>
+              <div class="flex gap-2">
+                <span class="px-3 py-1 rounded-full bg-[#FAF0F2] border border-[#C88A96] text-[11px] text-[#4A383C]">Rose Gold</span>
+                <span class="px-3 py-1 rounded-full bg-white border border-[#EFE0E3] text-[11px] text-[#7E666B]">Silver</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-3 pt-4">
+            <button onclick="quickAdd('${p.id}'); navigate('cart')" class="flex-1 py-3 rounded-full bg-[#C88A96] hover:bg-[#B57380] text-white text-xs font-medium cursor-pointer">เพิ่มลงตะกร้า</button>
+            <button onclick="toggleWish('${p.id}'); openProductDetail('${p.id}')" class="px-5 py-3 rounded-full border border-[#EFE0E3] hover:bg-[#FAF0F2] text-xs text-[#4A383C] cursor-pointer">
+              ${wishlist.includes(String(p.id)) ? '♥ บันทึกแล้ว' : '♡ รายการโปรด'}
+            </button>
+          </div>
+        </div>
+      `;
+      navigate('detail');
+    }
+
+    function quickAdd(id) {
+      const p = products.find(x => String(x.id) === String(id));
+      if (!p) return;
+      const found = cart.find(i => String(i.id) === String(id));
+      if (found) found.quantity += 1;
+      else cart.push({ id: p.id, name: p.name, price: Number(p.price || 0), imageUrl: p.imageUrl || FALLBACK, quantity: 1 });
+      syncCart();
+    }
+
+    function syncCart() {
+      localStorage.setItem('lu_soft_cart', JSON.stringify(cart));
+      const n = cart.reduce((s, i) => s + i.quantity, 0);
+      const el = document.getElementById('cartCount');
+      el.textContent = n;
+      el.classList.toggle('hidden', n === 0);
+    }
+
+    function renderCartPage() {
+      const box = document.getElementById('cartPageContent');
+      if (!cart.length) {
+        box.innerHTML = `<div class="col-span-full bg-white rounded-[2rem] border border-[#EFE0E3] p-12 text-center space-y-3">
+          <div class="text-sm text-[#7E666B]">ยังไม่มีสินค้าในตะกร้า</div>
+          <button onclick="navigate('shop')" class="px-6 py-2.5 rounded-full bg-[#C88A96] text-white text-xs font-medium cursor-pointer">ไปเลือกซื้อสินค้า</button>
+        </div>`;
+        return;
+      }
+      const sub = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+      const disc = promoCode === 'LITTLEU' ? Math.round(sub * 0.1) : 0;
+      const total = Math.max(0, sub - disc);
+
+      box.innerHTML = `
+        <div class="lg:col-span-8 space-y-3">
+          ${cart.map((item, idx) => `
+            <div class="bg-white rounded-2xl border border-[#EFE0E3] p-4 flex items-center justify-between gap-4">
+              <div class="flex items-center gap-3.5">
+                <img src="${item.imageUrl}" onerror="this.onerror=null;this.src='${FALLBACK}'" class="w-16 h-16 rounded-xl object-cover bg-[#FAF0F2]" />
+                <div>
+                  <div class="text-sm font-semibold text-[#4A383C]">${item.name}</div>
+                  <div class="text-xs text-[#C88A96] font-medium">${baht(item.price)}</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="changeQty(${idx}, -1)" class="w-7 h-7 rounded-full border border-[#EFE0E3] text-xs cursor-pointer">-</button>
+                <span class="text-xs font-semibold w-5 text-center">${item.quantity}</span>
+                <button onclick="changeQty(${idx}, 1)" class="w-7 h-7 rounded-full border border-[#EFE0E3] text-xs cursor-pointer">+</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="lg:col-span-4 bg-white rounded-[2rem] border border-[#EFE0E3] p-6 space-y-4">
+          <div class="text-sm font-bold text-[#4A383C]">สรุปยอดชำระ</div>
+          <div class="flex gap-2">
+            <input id="promoInput" value="${promoCode}" placeholder="โค้ดส่วนลด (เช่น LITTLEU)" class="flex-1 px-3 py-2 text-xs bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl" />
+            <button onclick="promoCode=document.getElementById('promoInput').value.trim().toUpperCase(); renderCartPage()" class="px-3.5 py-2 rounded-xl bg-[#FAF0F2] text-[#C88A96] text-xs font-medium cursor-pointer">ใช้โค้ด</button>
+          </div>
+          <div class="space-y-1.5 text-xs text-[#7E666B] border-t border-[#EFE0E3] pt-3">
+            <div class="flex justify-between"><span>ยอดรวมสินค้า</span><span>${baht(sub)}</span></div>
+            <div class="flex justify-between"><span>ส่วนลด</span><span>-${baht(disc)}</span></div>
+            <div class="flex justify-between text-sm font-bold text-[#4A383C] pt-1"><span>ยอดสุทธิ</span><span class="text-[#C88A96]">${baht(total)}</span></div>
+          </div>
+          <button onclick="navigate('checkout')" class="w-full py-3 rounded-full bg-[#C88A96] hover:bg-[#B57380] text-white text-xs font-medium cursor-pointer">ดำเนินการชำระเงิน</button>
+        </div>
+      `;
+    }
+
+    function changeQty(idx, d) {
+      cart[idx].quantity += d;
+      if (cart[idx].quantity <= 0) cart.splice(idx, 1);
+      syncCart();
+      renderCartPage();
+    }
+
+    function goCheckoutStep(step) {
+      if (step === 2) {
+        if (!document.getElementById('ckName').value.trim() || !document.getElementById('ckAddress').value.trim()) {
+          return alert('กรุณากรอกชื่อผู้รับและที่อยู่จัดส่งให้ครบครับ');
+        }
+      }
+      [1, 2, 3].forEach(s => {
+        document.getElementById(`checkoutStep${s}`).classList.toggle('hidden', s !== step);
+        document.getElementById(`stepBadge${s}`).className = s === step
+          ? 'px-4 py-1.5 rounded-full bg-[#C88A96] text-white'
+          : 'px-4 py-1.5 rounded-full bg-[#FAF0F2] text-[#7E666B]';
+      });
+      if (step === 3) {
+        const pay = document.querySelector('input[name="payMethod"]:checked')?.value || 'QR PromptPay';
+        const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+        document.getElementById('reviewSummary').innerHTML = `
+          <div class="p-4 rounded-2xl bg-[#FDF9F8] border border-[#EFE0E3] space-y-1">
+            <div class="font-semibold">ผู้รับ: ${document.getElementById('ckName').value} (${document.getElementById('ckPhone').value})</div>
+            <div class="text-[#7E666B]">ที่อยู่: ${document.getElementById('ckAddress').value}</div>
+            <div class="text-[#C88A96] font-medium">วิธีชำระเงิน: ${pay}</div>
+          </div>
+          ${cart.map(i => `<div class="flex justify-between py-1 border-b border-[#EFE0E3]"><span>${i.name} × ${i.quantity}</span><span>${baht(i.price * i.quantity)}</span></div>`).join('')}
+          <div class="flex justify-between text-sm font-bold pt-2"><span>รวมทั้งหมด</span><span class="text-[#C88A96]">${baht(total)}</span></div>
+        `;
+      }
+    }
+
+    async function confirmFinalOrder() {
+      const recipientName = document.getElementById('ckName').value.trim();
+      const recipientPhone = document.getElementById('ckPhone').value.trim();
+      const shippingAddress = document.getElementById('ckAddress').value.trim();
+      const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+      let orderNo = '#LU' + Date.now().toString().slice(-6);
+      let orderId = '';
+
+      try {
+        const res = await fetch(`${API}/orders`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: currentUser?.id || null,
+            userEmail: currentUser?.email || null,
+            recipientName,
+            recipientPhone,
+            shippingAddress,
+            shippingFee: 0,
+            items: cart.map(c => ({ productId: c.id, quantity: c.quantity }))
+          })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.orderId) {
+            orderId = String(data.orderId);
+            orderNo = '#' + orderId.slice(0, 8).toUpperCase();
+          }
+        }
+      } catch {}
+
+      myOrders.unshift({
+        id: orderId || orderNo.replace(/^#/, ''),
+        orderNo,
+        date: new Date().toLocaleDateString('th-TH'),
+        status: 'Processing',
+        total,
+        items: [...cart],
+        recipientName,
+        shippingAddress,
+        userEmail: currentUser?.email || ''
+      });
+      localStorage.setItem('lu_soft_orders', JSON.stringify(myOrders));
+      cart = [];
+      syncCart();
+      document.getElementById('successOrderNo').textContent = orderNo;
+      navigate('success');
+      loadProducts();
+    }
+
+    async function fetchUserOrdersCombined() {
+      const meta = JSON.parse(localStorage.getItem('lu_order_meta') || '{}');
+
+      let combined = myOrders.filter(isOrderOwnedByCurrentUser).map(o => {
+        const m = getOrderMetaOverride(o);
+        return {
+          ...o,
+          orderNo: formatShortOrderNo(o),
+          status: m.status || o.status || 'Pending',
+          tracking: m.tracking || m.trackingNumber || o.tracking || o.trackingNumber || ''
+        };
+      });
+
+      try {
+        const res = await fetch(`${API}/orders?_t=${Date.now()}`, { cache: 'no-store' });
+        if (res.ok) {
+          const apiOrders = await res.json();
+          const mapped = apiOrders
+            .filter(isOrderOwnedByCurrentUser)
+            .map(o => {
+              const m = getOrderMetaOverride(o);
+              const rawId = String(o.id || o.orderId || '');
+              const shortNo = '#' + (rawId ? rawId.slice(0, 8).toUpperCase() : String(o.orderNo || '').replace(/^#/, '').slice(0, 8).toUpperCase());
+              return {
+                id: rawId,
+                orderNo: shortNo,
+                date: o.createdAt ? new Date(o.createdAt).toLocaleDateString('th-TH') : '-',
+                status: m.status || o.status || 'Pending',
+                tracking: m.tracking || m.trackingNumber || o.trackingNumber || o.tracking || '',
+                total: Number(o.totalPrice ?? o.total ?? 0),
+                items: o.items || [],
+                recipientName: o.recipientName || '-',
+                shippingAddress: o.shippingAddress || '-',
+                userEmail: o.userEmail || o.email || currentUser?.email || ''
+              };
+            });
+          if (mapped.length) {
+            combined = mapped;
+            const otherOrders = myOrders.filter(o => !isOrderOwnedByCurrentUser(o));
+            myOrders = [...mapped, ...otherOrders];
+            localStorage.setItem('lu_soft_orders', JSON.stringify(myOrders));
+          }
+        }
+      } catch {}
+
+      if (Object.keys(meta).length) {
+        combined = combined.map(o => {
+          const m = getOrderMetaOverride(o);
+          return {
+            ...o,
+            status: m.status || o.status || 'Pending',
+            tracking: m.tracking || m.trackingNumber || o.tracking || ''
+          };
+        });
+      }
+
+      return combined;
+    }
+
+    async function renderOrders() {
+      const el = document.getElementById('ordersList');
+      const userOrders = await fetchUserOrdersCombined();
+      if (!userOrders.length) {
+        el.innerHTML = `<div class="bg-white rounded-3xl border border-[#EFE0E3] p-10 text-center text-xs text-[#7E666B]">ยังไม่มีประวัติคำสั่งซื้อสำหรับบัญชีนี้</div>`;
+        return;
+      }
+      el.innerHTML = userOrders.map(o => {
+        const statusText = o.status || 'Pending';
+        const trackingText = o.tracking || '';
+        const badge = getSoftOrderBadge(statusText);
+        return `
+          <div class="bg-white rounded-2xl border border-[#EFE0E3] p-5 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <div class="text-sm font-bold text-[#4A383C]">คำสั่งซื้อ ${o.orderNo}</div>
+              <div class="text-xs text-[#7E666B]">วันที่ ${o.date} • ${o.items.length} รายการ${trackingText ? ` • เลขพัสดุ: <strong class="text-[#4A383C]">${trackingText}</strong>` : ''}</div>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="px-3 py-1 rounded-full text-xs font-medium" style="background:${badge.bg};color:${badge.text}">${String(statusText).toUpperCase()}</span>
+              <span class="text-sm font-bold text-[#4A383C]">${baht(o.total)}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleWish(id) {
+      const key = String(id);
+      const idx = wishlist.indexOf(key);
+      if (idx > -1) wishlist.splice(idx, 1);
+      else wishlist.push(key);
+      localStorage.setItem('lu_soft_wish', JSON.stringify(wishlist));
+      document.getElementById('wishDot').classList.toggle('hidden', wishlist.length === 0);
+      renderHome();
+      renderShop();
+      if (!document.getElementById('view-profile')?.classList.contains('hidden')) {
+        renderProfile('wishlist');
+      }
+    }
+
+    function handleAccountClick() {
+      if (currentUser) navigate('profile', 'wishlist');
+      else navigate('auth');
+    }
+
+    function logoutAccount() {
+      localStorage.removeItem('lu_soft_user');
+      currentUser = null;
+      syncUserUI();
+      navigate('home');
+    }
+
+    function switchAuthMode() {
+      isRegister = !isRegister;
+      document.getElementById('authHeading').textContent = isRegister ? 'สมัครสมาชิก' : 'เข้าสู่ระบบ';
+      document.getElementById('authSubmitBtn').textContent = isRegister ? 'สมัครสมาชิก' : 'เข้าสู่ระบบ';
+      document.getElementById('authNameInput').classList.toggle('hidden', !isRegister);
+      document.getElementById('authSwitchBtn').textContent = isRegister ? 'มีบัญชีแล้ว? เข้าสู่ระบบ' : 'ยังไม่มีบัญชี? สมัครสมาชิก';
+    }
+
+    function submitAuthForm() {
+      const email = document.getElementById('authEmailInput').value.trim();
+      const name = document.getElementById('authNameInput').value.trim() || email.split('@')[0] || 'สมาชิก Little U';
+      if (!email) return alert('กรุณากรอกอีเมลครับ');
+      currentUser = { name, email, phone: '' };
+      localStorage.setItem('lu_soft_user', JSON.stringify(currentUser));
+      syncUserUI();
+      navigate('profile', 'wishlist');
+    }
+
+    function switchProfileTab(tab) {
+      document.querySelectorAll('.prof-tab-panel').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`ptab-${tab}`)?.classList.remove('hidden');
+      document.querySelectorAll('.prof-tab-btn').forEach(btn => {
+        const active = btn.dataset.ptab === tab;
+        btn.className = active
+          ? 'prof-tab-btn px-4 py-2 rounded-full bg-[#FAF0F2] text-[#C88A96] font-semibold transition cursor-pointer'
+          : 'prof-tab-btn px-4 py-2 rounded-full text-[#7E666B] hover:bg-[#FAF0F2] transition cursor-pointer';
+      });
+      if (tab === 'orders') renderProfileOrdersTab();
+    }
+
+    function toggleEditProfileBox(force) {
+      const box = document.getElementById('editProfileBox');
+      if (!box) return;
+      const show = typeof force === 'boolean' ? force : box.classList.contains('hidden');
+      if (show && currentUser) {
+        document.getElementById('inpProfName').value = currentUser.name || '';
+        document.getElementById('inpProfEmail').value = currentUser.email || '';
+        document.getElementById('inpProfPhone').value = currentUser.phone || '';
+        box.classList.remove('hidden');
+      } else {
+        box.classList.add('hidden');
+      }
+    }
+
+    function saveProfileInfo() {
+      if (!currentUser) return;
+      currentUser = {
+        ...currentUser,
+        name: document.getElementById('inpProfName').value.trim() || currentUser.name,
+        email: document.getElementById('inpProfEmail').value.trim() || currentUser.email,
+        phone: document.getElementById('inpProfPhone').value.trim()
+      };
+      localStorage.setItem('lu_soft_user', JSON.stringify(currentUser));
+      toggleEditProfileBox(false);
+      syncUserUI();
+      renderProfile();
+    }
+
+    function saveProfileAddress() {
+      if (!currentUser) return alert('กรุณาเข้าสู่ระบบก่อนบันทึกที่อยู่ครับ');
+      const addr = {
+        name: document.getElementById('addrName').value.trim(),
+        phone: document.getElementById('addrPhone').value.trim(),
+        detail: document.getElementById('addrDetail').value.trim()
+      };
+      if (!addr.name || !addr.detail) return alert('กรุณากรอกชื่อผู้รับและที่อยู่จัดส่งให้ครบครับ');
+      localStorage.setItem(getAddressKey(), JSON.stringify(addr));
+      const msg = document.getElementById('addrSavedMsg');
+      msg.classList.remove('hidden');
+      setTimeout(() => msg.classList.add('hidden'), 2500);
+      renderProfile();
+    }
+
+    async function renderProfileOrdersTab() {
+      const listEl = document.getElementById('profOrdersList');
+      if (!listEl) return;
+      const combined = await fetchUserOrdersCombined();
+
+      document.getElementById('profStatOrders').textContent = combined.length;
+      document.getElementById('profOrderCountTab').textContent = combined.length;
+
+      if (!combined.length) {
+        listEl.innerHTML = `<div class="py-10 text-center text-xs text-[#7E666B]">ยังไม่มีประวัติคำสั่งซื้อสำหรับบัญชีนี้</div>`;
+        return;
+      }
+
+      listEl.innerHTML = combined.map(o => {
+        const badge = getSoftOrderBadge(o.status);
+        const trackHtml = o.tracking ? `<span class="text-[11px] text-[#7E666B]">• เลขพัสดุ: <strong class="text-[#4A383C]">${o.tracking}</strong></span>` : '';
+        return `
+          <div class="p-4 rounded-2xl bg-[#FDF9F8] border border-[#EFE0E3] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="space-y-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="text-xs font-bold text-[#4A383C]">คำสั่งซื้อ ${o.orderNo}</span>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium" style="background:${badge.bg};color:${badge.text}">${String(o.status || 'Pending').toUpperCase()}</span>
+                ${trackHtml}
+              </div>
+              <div class="text-[11px] text-[#7E666B]">ผู้รับ: ${o.recipientName || '-'} • ${o.shippingAddress || '-'}</div>
+            </div>
+            <div class="text-sm font-bold text-[#C88A96]">${baht(o.total)}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderProfile(sub = 'wishlist') {
+      if (!currentUser) return navigate('auth');
+
+      document.getElementById('profDisplayName').textContent = currentUser.name || 'สมาชิก Little U';
+      document.getElementById('profDisplayEmail').textContent = currentUser.email || '-';
+      document.getElementById('profDisplayPhone').textContent = `เบอร์โทร: ${currentUser.phone || 'ยังไม่ได้ระบุ'}`;
+      document.getElementById('profAvatarText').textContent = (currentUser.name || 'L').charAt(0).toUpperCase();
+
+      const addr = loadCurrentUserAddress();
+      if (addr) {
+        document.getElementById('addrName').value = addr.name || '';
+        document.getElementById('addrPhone').value = addr.phone || '';
+        document.getElementById('addrDetail').value = addr.detail || '';
+        document.getElementById('profStatAddrStatus').textContent = addr.detail;
+      } else {
+        document.getElementById('addrName').value = '';
+        document.getElementById('addrPhone').value = '';
+        document.getElementById('addrDetail').value = '';
+        document.getElementById('profStatAddrStatus').textContent = 'ยังไม่ได้บันทึกที่อยู่';
+      }
+
+      const wishedProducts = products.filter(p => wishlist.includes(String(p.id)));
+      document.getElementById('profStatWish').textContent = wishedProducts.length;
+      document.getElementById('profWishCountTab').textContent = wishedProducts.length;
+
+      const grid = document.getElementById('profWishlistGrid');
+      grid.innerHTML = wishedProducts.length
+        ? wishedProducts.map(p => `
+            <div class="soft-pop rounded-2xl border border-[#EFE0E3] bg-[#FDF9F8] p-3.5 flex items-center gap-3">
+              <img src="${p.imageUrl || FALLBACK}" onerror="this.onerror=null;this.src='${FALLBACK}'" class="w-16 h-16 rounded-xl object-cover bg-white shrink-0" />
+              <div class="min-w-0 flex-1 space-y-1">
+                <div class="text-xs font-semibold text-[#4A383C] truncate">${p.name}</div>
+                <div class="text-xs font-bold text-[#C88A96]">${baht(p.price)}</div>
+                <div class="flex items-center gap-2 pt-0.5">
+                  <button onclick="quickAdd('${p.id}'); navigate('cart')" class="px-3 py-1 rounded-full bg-white border border-[#EFE0E3] hover:bg-[#FAF0F2] text-[10px] font-medium text-[#4A383C] cursor-pointer">
+                    + ใส่ตะกร้า
+                  </button>
+                  <button onclick="toggleWish('${p.id}')" class="text-[10px] text-[#7E666B] hover:text-[#A85A6B] cursor-pointer">
+                    นำออก
+                  </button>
+                </div>
+              </div>
+            </div>
+          `).join('')
+        : '<div class="col-span-full py-10 text-center text-xs text-[#7E666B]">ยังไม่มีสินค้าในรายการโปรด</div>';
+
+      renderProfileOrdersTab();
+      if (sub) switchProfileTab(sub);
+    }
+
+    function syncUserUI() {
+      document.getElementById('userNavLabel').textContent = currentUser ? currentUser.name : 'เข้าสู่ระบบ';
+      document.getElementById('wishDot').classList.toggle('hidden', wishlist.length === 0);
+    }
+
+    function refreshOrderViewsIfActive() {
+      if (!document.getElementById('view-profile')?.classList.contains('hidden')) {
+        renderProfileOrdersTab();
+      }
+      if (!document.getElementById('view-orders')?.classList.contains('hidden')) {
+        renderOrders();
+      }
+    }
+
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'lu_order_meta' || e.key === 'lu_soft_orders' || e.key === null) refreshOrderViewsIfActive();
+    });
+
+    window.addEventListener('focus', refreshOrderViewsIfActive);
+
+    try {
+      const luChannel = new BroadcastChannel('littleu_sync');
+      luChannel.onmessage = (ev) => {
+        if (ev.data?.type === 'ORDER_META_UPDATED') refreshOrderViewsIfActive();
+      };
+    } catch {}
+
+    syncUserUI();
+    syncCart();
+    loadProducts();
+  </script>
+</body>
+</html>
