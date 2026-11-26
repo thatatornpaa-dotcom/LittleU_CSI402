@@ -24,273 +24,322 @@
     }
   </style>
 </head>
-<body class="min-h-full flex bg-[#FDF9F8] text-[#4A383C]">
+<body class="min-h-full bg-[#FDF9F8] text-[#4A383C]">
 
-  <!-- ==================== SIDEBAR ==================== -->
-  <aside class="w-64 bg-white border-r border-[#EFE0E3] flex flex-col justify-between p-6 shrink-0">
-    <div class="space-y-8">
-      <div class="flex items-center gap-2.5 px-2">
-        <svg class="w-5 h-5 text-[#C88A96]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-        </svg>
+  <!-- ==================== ADMIN LOGIN GATE ==================== -->
+  <section id="adminLoginGate" class="min-h-screen flex items-center justify-center p-6 bg-gradient-to-b from-[#FAF0F2] to-[#FDF9F8]">
+    <div class="bg-white rounded-[2rem] border border-[#EFE0E3] max-w-md w-full p-8 space-y-6 shadow-[0_18px_40px_-15px_rgba(200,138,150,0.25)]">
+      <div class="text-center space-y-2">
+        <div class="w-12 h-12 mx-auto rounded-2xl bg-[#FAF0F2] border border-[#EFE0E3] flex items-center justify-center text-[#C88A96]">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+          </svg>
+        </div>
+        <div class="text-[11px] font-semibold tracking-wider uppercase text-[#C88A96]">Little U Admin Studio</div>
+        <h1 class="text-xl font-bold text-[#4A383C]">เข้าสู่ระบบจัดการหลังบ้าน</h1>
+        <p class="text-xs text-[#7E666B]">กรุณายืนยันตัวตนสำหรับผู้ดูแลระบบและสตาฟ</p>
+      </div>
+
+      <form onsubmit="handleAdminLogin(event)" class="space-y-4 text-xs">
         <div>
-          <div class="text-lg font-semibold text-[#4A383C] leading-none">Little U</div>
-          <div class="text-[10px] text-[#C88A96] tracking-wider uppercase mt-1">Admin Studio</div>
+          <label class="block font-medium mb-1 text-[#4A383C]">อีเมลหรือชื่อผู้ใช้แอดมิน</label>
+          <input id="adminUserInp" type="text" required placeholder="admin@littleu.com" class="w-full px-4 py-2.5 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
         </div>
-      </div>
-
-      <nav class="space-y-1.5 text-xs font-medium">
-        <button data-tab="dashboard" onclick="switchTab('dashboard')" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#7E666B] hover:bg-[#FAF0F2] hover:text-[#4A383C] transition cursor-pointer">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
-          <span>ภาพรวม &amp; ยอดขาย</span>
-        </button>
-
-        <button data-tab="products" onclick="switchTab('products')" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#7E666B] hover:bg-[#FAF0F2] hover:text-[#4A383C] transition cursor-pointer">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/></svg>
-          <span>จัดการสินค้า &amp; สต็อก</span>
-        </button>
-
-        <button data-tab="custom" onclick="switchTab('custom')" class="nav-item w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[#7E666B] hover:bg-[#FAF0F2] hover:text-[#4A383C] transition cursor-pointer">
-          <span class="flex items-center gap-3">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
-            <span>คิวงานสั่งทำพิเศษ</span>
-          </span>
-          <span id="customBadge" class="px-2 py-0.5 rounded-full bg-[#FAF0F2] text-[#C88A96] text-[10px] font-semibold">0</span>
-        </button>
-
-        <button data-tab="orders" onclick="switchTab('orders')" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-[#FAF0F2] text-[#C88A96] font-semibold transition cursor-pointer">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z"/></svg>
-          <span>จัดการคำสั่งซื้อ</span>
-        </button>
-      </nav>
-    </div>
-
-    <div class="space-y-3 pt-6 border-t border-[#EFE0E3]">
-      <div id="apiBadge" class="px-3 py-2 rounded-xl bg-[#FAF0F2] text-[11px] text-[#7E666B] flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-        <span>เชื่อมต่อ API 5062 สำเร็จ</span>
-      </div>
-      <a href="/frontend/index.html" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-full border border-[#EFE0E3] bg-white hover:bg-[#FAF0F2] text-xs font-medium text-[#4A383C] transition">
-        ← กลับไปหน้าร้านค้า
-      </a>
-    </div>
-  </aside>
-
-  <!-- ==================== MAIN WORKSPACE ==================== -->
-  <main class="flex-1 p-6 md:p-10 max-w-6xl mx-auto space-y-6">
-
-    <!-- Low Stock Alert Banner -->
-    <div id="lowStockBanner" class="hidden bg-[#FAF0F2] border border-[#E5C2CA] rounded-[1.5rem] px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center gap-2.5 text-xs">
-        <span class="px-2.5 py-0.5 rounded-full bg-white text-[#A85A6B] font-semibold border border-[#EFE0E3]">แจ้งเตือนสต็อกต่ำ (&lt; 5)</span>
-        <span id="lowStockText" class="text-[#4A383C]"></span>
-      </div>
-      <button onclick="filterLowStock()" class="text-xs font-semibold text-[#C88A96] hover:underline cursor-pointer">ดูรายการใกล้หมด →</button>
-    </div>
-
-    <!-- ==================== DASHBOARD & SALES ANALYTICS ==================== -->
-    <section id="panel-dashboard" class="admin-panel hidden space-y-6">
-      <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 class="text-2xl font-bold text-[#4A383C]">ภาพรวมและสรุปยอดขาย</h1>
-          <p class="text-xs text-[#7E666B] mt-0.5">สรุปยอดขาย สถานะคำสั่งซื้อ มูลค่าสต็อก และรายการล่าสุดของ Little U</p>
+          <label class="block font-medium mb-1 text-[#4A383C]">รหัสผ่าน</label>
+          <input id="adminPassInp" type="password" required placeholder="••••" class="w-full px-4 py-2.5 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
         </div>
-        <button onclick="exportCSV('orders')" class="px-4 py-2 rounded-full bg-white border border-[#EFE0E3] hover:bg-[#FAF0F2] text-xs font-medium text-[#4A383C] cursor-pointer">
-          Export รายงานยอดขาย (.CSV)
+        <div id="adminLoginErr" class="hidden text-[11px] text-[#A85A6B] bg-[#FDF2F4] border border-[#EABAC4] rounded-xl px-3.5 py-2">
+          อีเมลหรือรหัสผ่านไม่ถูกต้อง (ใช้ admin@littleu.com / 1234)
+        </div>
+        <button type="submit" class="w-full py-2.5 rounded-full bg-[#C88A96] hover:bg-[#B57380] text-white font-medium shadow-sm transition cursor-pointer">
+          เข้าสู่ระบบหลังบ้าน
         </button>
-      </div>
+      </form>
 
-      <!-- 4 Main Summary Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div class="soft-card bg-white rounded-[1.75rem] border border-[#EFE0E3] p-5">
-          <div class="text-xs text-[#7E666B]">ยอดขายรวมทั้งหมด</div>
-          <div id="sumRevenue" class="text-2xl font-bold text-[#C88A96] mt-1.5">฿0</div>
-          <div id="sumAvgOrder" class="text-[11px] text-[#7E666B] mt-1">เฉลี่ยต่อออเดอร์ ฿0</div>
-        </div>
-        <div class="soft-card bg-white rounded-[1.75rem] border border-[#EFE0E3] p-5">
-          <div class="text-xs text-[#7E666B]">คำสั่งซื้อทั้งหมด</div>
-          <div id="sumOrders" class="text-2xl font-bold text-[#4A383C] mt-1.5">0</div>
-          <div id="sumDoneCount" class="text-[11px] text-[#3E7A5A] mt-1">สำเร็จ/จัดส่งแล้ว 0 รายการ</div>
-        </div>
-        <div class="soft-card bg-white rounded-[1.75rem] border border-[#EFE0E3] p-5">
-          <div class="text-xs text-[#7E666B]">มูลค่าสต็อกสินค้าคงเหลือ</div>
-          <div id="sumStockValue" class="text-2xl font-bold text-[#4A383C] mt-1.5">฿0</div>
-          <div id="sumProductsMeta" class="text-[11px] text-[#7E666B] mt-1">0 รายการ (สั่งทำพิเศษ 0)</div>
-        </div>
-        <div class="soft-card bg-white rounded-[1.75rem] border border-[#EFE0E3] p-5">
-          <div class="text-xs text-[#7E666B]">สินค้าใกล้หมด (&lt; 5)</div>
-          <div id="sumLowStock" class="text-2xl font-bold text-[#A85A6B] mt-1.5">0</div>
-          <div class="text-[11px] text-[#7E666B] mt-1">ควรเติมสต็อกเพิ่มเติม</div>
-        </div>
+      <div class="pt-3 border-t border-[#EFE0E3] flex items-center justify-between text-[11px] text-[#7E666B]">
+        <button type="button" onclick="fillDemoAdmin()" class="text-[#C88A96] font-medium hover:underline cursor-pointer">
+          กรอกรหัสแอดมินอัตโนมัติ (Demo)
+        </button>
+        <a href="/frontend/index.html" class="hover:text-[#4A383C] transition">← กลับหน้าร้าน</a>
       </div>
+    </div>
+  </section>
 
-      <!-- Status Breakdown + Low Stock Quick Restock -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Left: Breakdown by Status -->
-        <div class="lg:col-span-6 bg-white rounded-[1.75rem] border border-[#EFE0E3] p-6 space-y-4">
-          <div class="flex items-center justify-between">
-            <h2 class="text-sm font-bold text-[#4A383C]">สัดส่วนยอดขายและจำนวนออเดอร์แยกตามสถานะ</h2>
-            <span class="text-[11px] text-[#7E666B]">อัปเดตล่าสุด</span>
+  <!-- ==================== ADMIN APP WRAPPER ==================== -->
+  <div id="adminAppWrapper" class="hidden min-h-screen flex w-full">
+
+    <!-- ==================== SIDEBAR ==================== -->
+    <aside class="w-64 bg-white border-r border-[#EFE0E3] flex flex-col justify-between p-6 shrink-0">
+      <div class="space-y-8">
+        <div class="flex items-center gap-2.5 px-2">
+          <svg class="w-5 h-5 text-[#C88A96]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+          </svg>
+          <div>
+            <div class="text-lg font-semibold text-[#4A383C] leading-none">Little U</div>
+            <div class="text-[10px] text-[#C88A96] tracking-wider uppercase mt-1">Admin Studio</div>
           </div>
-          <div id="statusBreakdownList" class="space-y-3 text-xs"></div>
         </div>
 
-        <!-- Right: Low Stock Quick Restock -->
-        <div class="lg:col-span-6 bg-white rounded-[1.75rem] border border-[#EFE0E3] p-6 space-y-4">
-          <div class="flex items-center justify-between">
-            <h2 class="text-sm font-bold text-[#4A383C]">สินค้าสต็อกต่ำที่ควรเติมด่วน</h2>
-            <button onclick="switchTab('products')" class="text-[11px] text-[#C88A96] hover:underline cursor-pointer">ไปหน้าจัดการสต็อก</button>
-          </div>
-          <div id="dashLowStockList" class="space-y-2.5 text-xs"></div>
-        </div>
-      </div>
-
-      <!-- Bottom: Recent Orders Table -->
-      <div class="bg-white rounded-[1.75rem] border border-[#EFE0E3] p-6 space-y-4">
-        <div class="flex items-center justify-between">
-          <h2 class="text-sm font-bold text-[#4A383C]">คำสั่งซื้อล่าสุด</h2>
-          <button onclick="switchTab('orders')" class="text-xs text-[#C88A96] hover:underline cursor-pointer">ดูทั้งหมด →</button>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse text-xs">
-            <thead>
-              <tr class="border-b border-[#EFE0E3] text-[11px] text-[#7E666B]">
-                <th class="py-2.5 pr-4">Order #</th>
-                <th class="py-2.5 px-4">ลูกค้า</th>
-                <th class="py-2.5 px-4">สถานะ</th>
-                <th class="py-2.5 pl-4 text-right">ยอดรวม</th>
-              </tr>
-            </thead>
-            <tbody id="recentOrdersTbody" class="divide-y divide-[#EFE0E3]"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== PRODUCTS & STOCK ==================== -->
-    <section id="panel-products" class="admin-panel hidden space-y-5">
-      <div class="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 class="text-2xl font-bold text-[#4A383C]">จัดการสินค้าและสต็อก</h1>
-          <p class="text-xs text-[#7E666B] mt-0.5">เพิ่ม แก้ไข ปรับสต็อกด่วน ค้นหากรอง และส่งออกไฟล์ CSV</p>
-        </div>
-        <div class="flex flex-wrap items-center gap-2.5">
-          <button onclick="exportCSV('products')" class="px-4 py-2.5 rounded-full bg-white border border-[#EFE0E3] hover:bg-[#FAF0F2] text-xs font-medium text-[#4A383C] cursor-pointer">
-            Export CSV
+        <nav class="space-y-1.5 text-xs font-medium">
+          <button data-tab="dashboard" onclick="switchTab('dashboard')" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#7E666B] hover:bg-[#FAF0F2] hover:text-[#4A383C] transition cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
+            <span>ภาพรวม &amp; ยอดขาย</span>
           </button>
-          <button onclick="openProductForm()" class="px-5 py-2.5 rounded-full bg-[#C88A96] hover:bg-[#B57380] text-white text-xs font-medium shadow-sm cursor-pointer">
-            + เพิ่มสินค้าใหม่
+
+          <button data-tab="products" onclick="switchTab('products')" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#7E666B] hover:bg-[#FAF0F2] hover:text-[#4A383C] transition cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/></svg>
+            <span>จัดการสินค้า &amp; สต็อก</span>
           </button>
-        </div>
+
+          <button data-tab="custom" onclick="switchTab('custom')" class="nav-item w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[#7E666B] hover:bg-[#FAF0F2] hover:text-[#4A383C] transition cursor-pointer">
+            <span class="flex items-center gap-3">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
+              <span>คิวงานสั่งทำพิเศษ</span>
+            </span>
+            <span id="customBadge" class="px-2 py-0.5 rounded-full bg-[#FAF0F2] text-[#C88A96] text-[10px] font-semibold">0</span>
+          </button>
+
+          <button data-tab="orders" onclick="switchTab('orders')" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-[#FAF0F2] text-[#C88A96] font-semibold transition cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z"/></svg>
+            <span>จัดการคำสั่งซื้อ</span>
+          </button>
+        </nav>
       </div>
 
-      <div class="bg-white rounded-2xl border border-[#EFE0E3] p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
-        <input id="pSearch" oninput="renderProducts()" type="text" placeholder="ค้นหาชื่อหรือคำอธิบาย..." class="lg:col-span-2 px-3.5 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
-        <select id="pCat" onchange="renderProducts()" class="px-3 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl">
-          <option value="ALL">ทุกหมวดหมู่</option>
-          <option value="BRACELET">กำไลข้อมือ (BRACELET)</option>
-          <option value="EARRINGS">ต่างหู (EARRINGS)</option>
-          <option value="NECKLACE">สร้อยคอ (NECKLACE)</option>
-          <option value="ANKLET">สร้อยข้อเท้า (ANKLET)</option>
-          <option value="RING">แหวน (RING)</option>
-          <option value="HAIR_CLIP">กิ๊บติดผม (HAIR_CLIP)</option>
-          <option value="BROOCH">เข็มกลัด (BROOCH)</option>
-          <option value="KEY_CHAIN">พวงกุญแจ (KEY_CHAIN)</option>
-        </select>
-        <select id="pType" onchange="renderProducts()" class="px-3 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl">
-          <option value="ALL">ทุกประเภท</option>
-          <option value="READY_TO_SHIP">พร้อมส่ง</option>
-          <option value="MADE_TO_ORDER">สั่งทำพิเศษ (Custom)</option>
-        </select>
-        <select id="pStockFilter" onchange="renderProducts()" class="px-3 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl">
-          <option value="ALL">สต็อกทั้งหมด</option>
-          <option value="LOW">ใกล้หมด (&lt; 5)</option>
-          <option value="OUT">หมดสต็อก (0)</option>
-        </select>
-      </div>
-
-      <div class="bg-white rounded-[1.75rem] border border-[#EFE0E3] overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse">
-            <thead>
-              <tr class="bg-[#FAF0F2]/70 border-b border-[#EFE0E3] text-[11px] font-semibold text-[#7E666B] uppercase">
-                <th class="py-3.5 px-5">รูปภาพ</th>
-                <th class="py-3.5 px-4">ชื่อสินค้า</th>
-                <th class="py-3.5 px-4">หมวดหมู่ / ประเภท</th>
-                <th class="py-3.5 px-4">ราคา</th>
-                <th class="py-3.5 px-4">ปรับสต็อกด่วน</th>
-                <th class="py-3.5 px-5 text-right">จัดการ</th>
-              </tr>
-            </thead>
-            <tbody id="prodTbody" class="divide-y divide-[#EFE0E3] text-xs"></tbody>
-          </table>
+      <div class="space-y-2.5 pt-6 border-t border-[#EFE0E3]">
+        <div class="px-3 py-2 rounded-xl bg-[#FDF9F8] border border-[#EFE0E3] flex items-center justify-between text-[11px]">
+          <span class="font-semibold text-[#4A383C] truncate" id="loggedAdminName">Admin Little U</span>
+          <span class="px-2 py-0.5 rounded-full bg-[#FAF0F2] text-[#C88A96] text-[10px] font-medium">Staff</span>
         </div>
-      </div>
-    </section>
-
-    <!-- ==================== CUSTOM QUEUE ==================== -->
-    <section id="panel-custom" class="admin-panel hidden space-y-5">
-      <div class="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 class="text-2xl font-bold text-[#4A383C]">คิวงานคัสตอม / สั่งทำพิเศษ (Made to Order)</h1>
-          <p class="text-xs text-[#7E666B] mt-0.5">รายการสินค้าและคิวงานสั่งทำพิเศษสำหรับลูกค้า Little U</p>
+        <div id="apiBadge" class="px-3 py-2 rounded-xl bg-[#FAF0F2] text-[11px] text-[#7E666B] flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span>เชื่อมต่อ API 5062 สำเร็จ</span>
         </div>
-        <button onclick="exportCSV('custom')" class="px-4 py-2 rounded-full bg-white border border-[#EFE0E3] hover:bg-[#FAF0F2] text-xs font-medium text-[#4A383C] cursor-pointer">
-          Export คิวงาน (.CSV)
+        <a href="/frontend/index.html" class="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-[#EFE0E3] bg-white hover:bg-[#FAF0F2] text-xs font-medium text-[#4A383C] transition">
+          ← กลับไปหน้าร้านค้า
+        </a>
+        <button onclick="logoutAdmin()" class="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[#FAF0F2] hover:bg-[#F3DCE1] text-xs font-medium text-[#A85A6B] transition cursor-pointer">
+          ออกจากระบบ
         </button>
       </div>
-      <div id="customQueueGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
-    </section>
+    </aside>
 
-    <!-- ==================== ORDERS & SOFT STATUS COLORS ==================== -->
-    <section id="panel-orders" class="admin-panel space-y-5">
-      <div class="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 class="text-2xl font-bold text-[#4A383C]">จัดการคำสั่งซื้อและสถานะการจัดส่ง</h1>
-          <p class="text-xs text-[#7E666B] mt-0.5">อัปเดตสถานะคำสั่งซื้อ กรอกเลขพัสดุ ค้นหา และส่งออก CSV</p>
+    <!-- ==================== MAIN WORKSPACE ==================== -->
+    <main class="flex-1 p-6 md:p-10 max-w-6xl mx-auto space-y-6">
+
+      <!-- Low Stock Alert Banner -->
+      <div id="lowStockBanner" class="hidden bg-[#FAF0F2] border border-[#E5C2CA] rounded-[1.5rem] px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5 text-xs">
+          <span class="px-2.5 py-0.5 rounded-full bg-white text-[#A85A6B] font-semibold border border-[#EFE0E3]">แจ้งเตือนสต็อกต่ำ (&lt; 5)</span>
+          <span id="lowStockText" class="text-[#4A383C]"></span>
         </div>
-        <div class="flex items-center gap-2">
+        <button onclick="filterLowStock()" class="text-xs font-semibold text-[#C88A96] hover:underline cursor-pointer">ดูรายการใกล้หมด →</button>
+      </div>
+
+      <!-- ==================== DASHBOARD & SALES ANALYTICS ==================== -->
+      <section id="panel-dashboard" class="admin-panel hidden space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 class="text-2xl font-bold text-[#4A383C]">ภาพรวมและสรุปยอดขาย</h1>
+            <p class="text-xs text-[#7E666B] mt-0.5">สรุปยอดขาย สถานะคำสั่งซื้อ มูลค่าสต็อก และรายการล่าสุดของ Little U</p>
+          </div>
           <button onclick="exportCSV('orders')" class="px-4 py-2 rounded-full bg-white border border-[#EFE0E3] hover:bg-[#FAF0F2] text-xs font-medium text-[#4A383C] cursor-pointer">
-            Export CSV
-          </button>
-          <button onclick="loadAll()" class="px-4 py-2 rounded-full bg-[#C88A96] text-white text-xs font-medium cursor-pointer">
-            รีเฟรช
+            Export รายงานยอดขาย (.CSV)
           </button>
         </div>
-      </div>
 
-      <div class="bg-white rounded-2xl border border-[#EFE0E3] p-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-        <input id="oSearch" oninput="renderOrders()" type="text" placeholder="ค้นหาเลขออเดอร์ ชื่อลูกค้า หรือเลขพัสดุ..." class="sm:col-span-2 px-3.5 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
-        <select id="oStatusFilter" onchange="renderOrders()" class="px-3 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl">
-          <option value="ALL">ทุกสถานะ</option>
-          <option value="PENDING">Pending</option>
-          <option value="PROCESSING">Processing</option>
-          <option value="PAID">Paid</option>
-          <option value="SHIPPED">Shipped</option>
-          <option value="DELIVERED">Delivered</option>
-          <option value="COMPLETED">Completed</option>
-          <option value="CANCELLED">Cancelled</option>
-        </select>
-      </div>
-
-      <div class="bg-white rounded-[1.75rem] border border-[#EFE0E3] overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse">
-            <thead>
-              <tr class="bg-[#FAF0F2]/70 border-b border-[#EFE0E3] text-[11px] font-semibold text-[#7E666B] uppercase">
-                <th class="py-3.5 px-5">Order #</th>
-                <th class="py-3.5 px-4">ลูกค้า / ที่อยู่</th>
-                <th class="py-3.5 px-4">ยอดรวม</th>
-                <th class="py-3.5 px-4">สถานะ &amp; เลขพัสดุ</th>
-                <th class="py-3.5 px-5 text-right">เปลี่ยนสถานะ</th>
-              </tr>
-            </thead>
-            <tbody id="orderTbody" class="divide-y divide-[#EFE0E3] text-xs"></tbody>
-          </table>
+        <!-- 4 Main Summary Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div class="soft-card bg-white rounded-[1.75rem] border border-[#EFE0E3] p-5">
+            <div class="text-xs text-[#7E666B]">ยอดขายรวมทั้งหมด</div>
+            <div id="sumRevenue" class="text-2xl font-bold text-[#C88A96] mt-1.5">฿0</div>
+            <div id="sumAvgOrder" class="text-[11px] text-[#7E666B] mt-1">เฉลี่ยต่อออเดอร์ ฿0</div>
+          </div>
+          <div class="soft-card bg-white rounded-[1.75rem] border border-[#EFE0E3] p-5">
+            <div class="text-xs text-[#7E666B]">คำสั่งซื้อทั้งหมด</div>
+            <div id="sumOrders" class="text-2xl font-bold text-[#4A383C] mt-1.5">0</div>
+            <div id="sumDoneCount" class="text-[11px] text-[#3E7A5A] mt-1">สำเร็จ/จัดส่งแล้ว 0 รายการ</div>
+          </div>
+          <div class="soft-card bg-white rounded-[1.75rem] border border-[#EFE0E3] p-5">
+            <div class="text-xs text-[#7E666B]">มูลค่าสต็อกสินค้าคงเหลือ</div>
+            <div id="sumStockValue" class="text-2xl font-bold text-[#4A383C] mt-1.5">฿0</div>
+            <div id="sumProductsMeta" class="text-[11px] text-[#7E666B] mt-1">0 รายการ (สั่งทำพิเศษ 0)</div>
+          </div>
+          <div class="soft-card bg-white rounded-[1.75rem] border border-[#EFE0E3] p-5">
+            <div class="text-xs text-[#7E666B]">สินค้าใกล้หมด (&lt; 5)</div>
+            <div id="sumLowStock" class="text-2xl font-bold text-[#A85A6B] mt-1.5">0</div>
+            <div class="text-[11px] text-[#7E666B] mt-1">ควรเติมสต็อกเพิ่มเติม</div>
+          </div>
         </div>
-      </div>
-    </section>
-  </main>
+
+        <!-- Status Breakdown + Low Stock Quick Restock -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-6 bg-white rounded-[1.75rem] border border-[#EFE0E3] p-6 space-y-4">
+            <div class="flex items-center justify-between">
+              <h2 class="text-sm font-bold text-[#4A383C]">สัดส่วนยอดขายและจำนวนออเดอร์แยกตามสถานะ</h2>
+              <span class="text-[11px] text-[#7E666B]">อัปเดตล่าสุด</span>
+            </div>
+            <div id="statusBreakdownList" class="space-y-3 text-xs"></div>
+          </div>
+
+          <div class="lg:col-span-6 bg-white rounded-[1.75rem] border border-[#EFE0E3] p-6 space-y-4">
+            <div class="flex items-center justify-between">
+              <h2 class="text-sm font-bold text-[#4A383C]">สินค้าสต็อกต่ำที่ควรเติมด่วน</h2>
+              <button onclick="switchTab('products')" class="text-[11px] text-[#C88A96] hover:underline cursor-pointer">ไปหน้าจัดการสต็อก</button>
+            </div>
+            <div id="dashLowStockList" class="space-y-2.5 text-xs"></div>
+          </div>
+        </div>
+
+        <!-- Bottom: Recent Orders Table -->
+        <div class="bg-white rounded-[1.75rem] border border-[#EFE0E3] p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm font-bold text-[#4A383C]">คำสั่งซื้อล่าสุด</h2>
+            <button onclick="switchTab('orders')" class="text-xs text-[#C88A96] hover:underline cursor-pointer">ดูทั้งหมด →</button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="border-b border-[#EFE0E3] text-[11px] text-[#7E666B]">
+                  <th class="py-2.5 pr-4">Order #</th>
+                  <th class="py-2.5 px-4">ลูกค้า</th>
+                  <th class="py-2.5 px-4">สถานะ</th>
+                  <th class="py-2.5 pl-4 text-right">ยอดรวม</th>
+                </tr>
+              </thead>
+              <tbody id="recentOrdersTbody" class="divide-y divide-[#EFE0E3]"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== PRODUCTS & STOCK ==================== -->
+      <section id="panel-products" class="admin-panel hidden space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 class="text-2xl font-bold text-[#4A383C]">จัดการสินค้าและสต็อก</h1>
+            <p class="text-xs text-[#7E666B] mt-0.5">เพิ่ม แก้ไข ปรับสต็อกด่วน ค้นหากรอง และส่งออกไฟล์ CSV</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2.5">
+            <button onclick="exportCSV('products')" class="px-4 py-2.5 rounded-full bg-white border border-[#EFE0E3] hover:bg-[#FAF0F2] text-xs font-medium text-[#4A383C] cursor-pointer">
+              Export CSV
+            </button>
+            <button onclick="openProductForm()" class="px-5 py-2.5 rounded-full bg-[#C88A96] hover:bg-[#B57380] text-white text-xs font-medium shadow-sm cursor-pointer">
+              + เพิ่มสินค้าใหม่
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-[#EFE0E3] p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
+          <input id="pSearch" oninput="renderProducts()" type="text" placeholder="ค้นหาชื่อหรือคำอธิบาย..." class="lg:col-span-2 px-3.5 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
+          <select id="pCat" onchange="renderProducts()" class="px-3 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl">
+            <option value="ALL">ทุกหมวดหมู่</option>
+            <option value="BRACELET">กำไลข้อมือ (BRACELET)</option>
+            <option value="EARRINGS">ต่างหู (EARRINGS)</option>
+            <option value="NECKLACE">สร้อยคอ (NECKLACE)</option>
+            <option value="ANKLET">สร้อยข้อเท้า (ANKLET)</option>
+            <option value="RING">แหวน (RING)</option>
+            <option value="HAIR_CLIP">กิ๊บติดผม (HAIR_CLIP)</option>
+            <option value="BROOCH">เข็มกลัด (BROOCH)</option>
+            <option value="KEY_CHAIN">พวงกุญแจ (KEY_CHAIN)</option>
+          </select>
+          <select id="pType" onchange="renderProducts()" class="px-3 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl">
+            <option value="ALL">ทุกประเภท</option>
+            <option value="READY_TO_SHIP">พร้อมส่ง</option>
+            <option value="MADE_TO_ORDER">สั่งทำพิเศษ (Custom)</option>
+          </select>
+          <select id="pStockFilter" onchange="renderProducts()" class="px-3 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl">
+            <option value="ALL">สต็อกทั้งหมด</option>
+            <option value="LOW">ใกล้หมด (&lt; 5)</option>
+            <option value="OUT">หมดสต็อก (0)</option>
+          </select>
+        </div>
+
+        <div class="bg-white rounded-[1.75rem] border border-[#EFE0E3] overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-[#FAF0F2]/70 border-b border-[#EFE0E3] text-[11px] font-semibold text-[#7E666B] uppercase">
+                  <th class="py-3.5 px-5">รูปภาพ</th>
+                  <th class="py-3.5 px-4">ชื่อสินค้า</th>
+                  <th class="py-3.5 px-4">หมวดหมู่ / ประเภท</th>
+                  <th class="py-3.5 px-4">ราคา</th>
+                  <th class="py-3.5 px-4">ปรับสต็อกด่วน</th>
+                  <th class="py-3.5 px-5 text-right">จัดการ</th>
+                </tr>
+              </thead>
+              <tbody id="prodTbody" class="divide-y divide-[#EFE0E3] text-xs"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== CUSTOM QUEUE ==================== -->
+      <section id="panel-custom" class="admin-panel hidden space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 class="text-2xl font-bold text-[#4A383C]">คิวงานคัสตอม / สั่งทำพิเศษ (Made to Order)</h1>
+            <p class="text-xs text-[#7E666B] mt-0.5">รายการสินค้าและคิวงานสั่งทำพิเศษสำหรับลูกค้า Little U</p>
+          </div>
+          <button onclick="exportCSV('custom')" class="px-4 py-2 rounded-full bg-white border border-[#EFE0E3] hover:bg-[#FAF0F2] text-xs font-medium text-[#4A383C] cursor-pointer">
+            Export คิวงาน (.CSV)
+          </button>
+        </div>
+        <div id="customQueueGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+      </section>
+
+      <!-- ==================== ORDERS & SOFT STATUS COLORS ==================== -->
+      <section id="panel-orders" class="admin-panel space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 class="text-2xl font-bold text-[#4A383C]">จัดการคำสั่งซื้อและสถานะการจัดส่ง</h1>
+            <p class="text-xs text-[#7E666B] mt-0.5">อัปเดตสถานะคำสั่งซื้อ กรอกเลขพัสดุ ค้นหา และส่งออก CSV</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="exportCSV('orders')" class="px-4 py-2 rounded-full bg-white border border-[#EFE0E3] hover:bg-[#FAF0F2] text-xs font-medium text-[#4A383C] cursor-pointer">
+              Export CSV
+            </button>
+            <button onclick="loadAll()" class="px-4 py-2 rounded-full bg-[#C88A96] text-white text-xs font-medium cursor-pointer">
+              รีเฟรช
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-[#EFE0E3] p-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <input id="oSearch" oninput="renderOrders()" type="text" placeholder="ค้นหาเลขออเดอร์ ชื่อลูกค้า หรือเลขพัสดุ..." class="sm:col-span-2 px-3.5 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
+          <select id="oStatusFilter" onchange="renderOrders()" class="px-3 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl">
+            <option value="ALL">ทุกสถานะ</option>
+            <option value="PENDING">Pending</option>
+            <option value="PROCESSING">Processing</option>
+            <option value="PAID">Paid</option>
+            <option value="SHIPPED">Shipped</option>
+            <option value="DELIVERED">Delivered</option>
+            <option value="COMPLETED">Completed</option>
+            <option value="CANCELLED">Cancelled</option>
+          </select>
+        </div>
+
+        <div class="bg-white rounded-[1.75rem] border border-[#EFE0E3] overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-[#FAF0F2]/70 border-b border-[#EFE0E3] text-[11px] font-semibold text-[#7E666B] uppercase">
+                  <th class="py-3.5 px-5">Order #</th>
+                  <th class="py-3.5 px-4">ลูกค้า / ที่อยู่</th>
+                  <th class="py-3.5 px-4">ยอดรวม</th>
+                  <th class="py-3.5 px-4">สถานะ &amp; เลขพัสดุ</th>
+                  <th class="py-3.5 px-5 text-right">เปลี่ยนสถานะ</th>
+                </tr>
+              </thead>
+              <tbody id="orderTbody" class="divide-y divide-[#EFE0E3] text-xs"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
 
   <!-- ==================== ADD / EDIT PRODUCT MODAL ==================== -->
   <div id="prodFormModal" class="fixed inset-0 z-50 hidden bg-black/35 backdrop-blur-[1px] items-center justify-center p-4">
@@ -366,6 +415,7 @@
     const API = 'http://localhost:5062/api';
     const FALLBACK = '/frontend/public/FixHerd.jpg';
     const STATUS_OPTIONS = ['Pending', 'Processing', 'Paid', 'Shipped', 'Delivered', 'Completed', 'Cancelled'];
+    const ADMIN_SESSION_KEY = 'lu_admin_session';
 
     let products = [];
     let orders = [];
@@ -375,6 +425,48 @@
     try { luChannel = new BroadcastChannel('littleu_sync'); } catch {}
 
     const baht = (n) => '฿' + Number(n || 0).toLocaleString();
+
+    function checkAdminAuth() {
+      const session = JSON.parse(localStorage.getItem(ADMIN_SESSION_KEY) || 'null');
+      const gate = document.getElementById('adminLoginGate');
+      const app = document.getElementById('adminAppWrapper');
+      if (session?.loggedIn) {
+        gate.classList.add('hidden');
+        app.classList.remove('hidden');
+        document.getElementById('loggedAdminName').textContent = session.name || 'Admin Little U';
+        loadAll();
+      } else {
+        app.classList.add('hidden');
+        gate.classList.remove('hidden');
+      }
+    }
+
+    function fillDemoAdmin() {
+      document.getElementById('adminUserInp').value = 'admin@littleu.com';
+      document.getElementById('adminPassInp').value = '1234';
+      document.getElementById('adminLoginErr').classList.add('hidden');
+    }
+
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const user = document.getElementById('adminUserInp').value.trim().toLowerCase();
+      const pass = document.getElementById('adminPassInp').value.trim();
+      const validUsers = ['admin@littleu.com', 'admin', 'staff@littleu.com', 'staff'];
+      if (validUsers.includes(user) && pass === '1234') {
+        const displayName = user.startsWith('staff') ? 'Staff Little U' : 'Admin Little U';
+        localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify({ loggedIn: true, email: user, name: displayName }));
+        document.getElementById('adminLoginErr').classList.add('hidden');
+        checkAdminAuth();
+      } else {
+        document.getElementById('adminLoginErr').classList.remove('hidden');
+      }
+    }
+
+    function logoutAdmin() {
+      localStorage.removeItem(ADMIN_SESSION_KEY);
+      document.getElementById('adminPassInp').value = '';
+      checkAdminAuth();
+    }
 
     function getStatusStyle(status) {
       const s = String(status || 'PENDING').toUpperCase();
@@ -892,7 +984,7 @@
       URL.revokeObjectURL(url);
     }
 
-    loadAll();
+    checkAdminAuth();
   </script>
 </body>
 </html>
