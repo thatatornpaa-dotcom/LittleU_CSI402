@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Little U | Backoffice Admin</title>
+  <title>Little U | Backoffice Admin &amp; Staff</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,49 +26,48 @@
 </head>
 <body class="min-h-full bg-[#FDF9F8] text-[#4A383C]">
 
-  <!-- ==================== ADMIN LOGIN GATE ==================== -->
-  <section id="adminLoginGate" class="min-h-screen flex items-center justify-center p-6 bg-gradient-to-b from-[#FAF0F2] to-[#FDF9F8]">
-    <div class="bg-white rounded-[2rem] border border-[#EFE0E3] max-w-md w-full p-8 space-y-6 shadow-[0_18px_40px_-15px_rgba(200,138,150,0.25)]">
+  <!-- ==================== ADMIN & STAFF LOGIN GATE ==================== -->
+  <div id="adminLoginGate" class="min-h-screen flex items-center justify-center p-6 bg-gradient-to-b from-[#FAF0F2] to-[#FDF9F8]">
+    <div class="w-full max-w-md bg-white rounded-[2rem] border border-[#EFE0E3] p-8 space-y-6 shadow-[0_18px_40px_-18px_rgba(200,138,150,0.3)]">
       <div class="text-center space-y-2">
-        <div class="w-12 h-12 mx-auto rounded-2xl bg-[#FAF0F2] border border-[#EFE0E3] flex items-center justify-center text-[#C88A96]">
+        <div class="w-12 h-12 mx-auto rounded-full bg-[#FAF0F2] border border-[#EFE0E3] flex items-center justify-center text-[#C88A96]">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
           </svg>
         </div>
-        <div class="text-[11px] font-semibold tracking-wider uppercase text-[#C88A96]">Little U Admin Studio</div>
+        <div class="text-[11px] font-semibold tracking-wider uppercase text-[#C88A96]">Little U Studio</div>
         <h1 class="text-xl font-bold text-[#4A383C]">เข้าสู่ระบบจัดการหลังบ้าน</h1>
-        <p class="text-xs text-[#7E666B]">กรุณายืนยันตัวตนสำหรับผู้ดูแลระบบและสตาฟ</p>
+        <p class="text-xs text-[#7E666B]">เลือกเข้าสู่ระบบตามบทบาทผู้ดูแลระบบ (Admin) หรือพนักงาน (Staff)</p>
       </div>
+
+      <!-- Quick Role Fill Buttons -->
+      <div id="quickAccountList" class="grid grid-cols-2 gap-2.5 text-[11px]"></div>
 
       <form onsubmit="handleAdminLogin(event)" class="space-y-4 text-xs">
         <div>
-          <label class="block font-medium mb-1 text-[#4A383C]">อีเมลหรือชื่อผู้ใช้แอดมิน</label>
-          <input id="adminUserInp" type="text" required placeholder="admin@littleu.com" class="w-full px-4 py-2.5 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
+          <label class="block font-medium mb-1 text-[#4A383C]">อีเมลผู้ใช้งาน</label>
+          <input id="adminEmail" type="email" required value="admin@littleu.com" placeholder="admin@littleu.com หรืออีเมลพนักงาน" class="w-full px-4 py-2.5 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
         </div>
         <div>
           <label class="block font-medium mb-1 text-[#4A383C]">รหัสผ่าน</label>
-          <input id="adminPassInp" type="password" required placeholder="••••" class="w-full px-4 py-2.5 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
+          <input id="adminPass" type="password" required value="1234" placeholder="กรอกรหัสผ่าน" class="w-full px-4 py-2.5 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
         </div>
-        <div id="adminLoginErr" class="hidden text-[11px] text-[#A85A6B] bg-[#FDF2F4] border border-[#EABAC4] rounded-xl px-3.5 py-2">
-          อีเมลหรือรหัสผ่านไม่ถูกต้อง (ใช้ admin@littleu.com / 1234)
+        <div id="loginErrorMsg" class="hidden text-[11px] text-[#A85A6B] bg-[#FAF0F2] px-3 py-2 rounded-xl">
+          อีเมล รหัสผ่านไม่ถูกต้อง หรือบัญชีถูกระงับการใช้งาน
         </div>
-        <button type="submit" class="w-full py-2.5 rounded-full bg-[#C88A96] hover:bg-[#B57380] text-white font-medium shadow-sm transition cursor-pointer">
+        <button type="submit" class="w-full py-3 rounded-full bg-[#C88A96] hover:bg-[#B57380] text-white font-semibold shadow-sm transition cursor-pointer">
           เข้าสู่ระบบหลังบ้าน
         </button>
       </form>
 
-      <div class="pt-3 border-t border-[#EFE0E3] flex items-center justify-between text-[11px] text-[#7E666B]">
-        <button type="button" onclick="fillDemoAdmin()" class="text-[#C88A96] font-medium hover:underline cursor-pointer">
-          กรอกรหัสแอดมินอัตโนมัติ (Demo)
-        </button>
-        <a href="/frontend/index.html" class="hover:text-[#4A383C] transition">← กลับหน้าร้าน</a>
+      <div class="pt-2 border-t border-[#EFE0E3] text-center">
+        <a href="/frontend/index.html" class="text-xs text-[#7E666B] hover:text-[#C88A96] transition">← กลับไปหน้าร้านค้า (Role: Customer)</a>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ==================== ADMIN APP WRAPPER ==================== -->
-  <div id="adminAppWrapper" class="hidden min-h-screen flex w-full">
-
+  <!-- ==================== APP SHELL ==================== -->
+  <div id="adminAppShell" class="hidden min-h-screen flex">
     <!-- ==================== SIDEBAR ==================== -->
     <aside class="w-64 bg-white border-r border-[#EFE0E3] flex flex-col justify-between p-6 shrink-0">
       <div class="space-y-8">
@@ -78,12 +77,12 @@
           </svg>
           <div>
             <div class="text-lg font-semibold text-[#4A383C] leading-none">Little U</div>
-            <div class="text-[10px] text-[#C88A96] tracking-wider uppercase mt-1">Admin Studio</div>
+            <div id="studioRoleLabel" class="text-[10px] text-[#C88A96] tracking-wider uppercase mt-1">Admin Studio</div>
           </div>
         </div>
 
         <nav class="space-y-1.5 text-xs font-medium">
-          <button data-tab="dashboard" onclick="switchTab('dashboard')" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#7E666B] hover:bg-[#FAF0F2] hover:text-[#4A383C] transition cursor-pointer">
+          <button id="nav-dashboard" data-tab="dashboard" onclick="switchTab('dashboard')" class="nav-item admin-only-el w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#7E666B] hover:bg-[#FAF0F2] hover:text-[#4A383C] transition cursor-pointer">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
             <span>ภาพรวม &amp; ยอดขาย</span>
           </button>
@@ -105,24 +104,39 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z"/></svg>
             <span>จัดการคำสั่งซื้อ</span>
           </button>
+
+          <button id="nav-staff" data-tab="staff" onclick="switchTab('staff')" class="nav-item admin-only-el w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[#7E666B] hover:bg-[#FAF0F2] hover:text-[#4A383C] transition cursor-pointer">
+            <span class="flex items-center gap-3">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
+              <span>จัดการพนักงาน</span>
+            </span>
+            <span id="staffCountBadge" class="px-2 py-0.5 rounded-full bg-[#FAF0F2] text-[#C88A96] text-[10px] font-semibold">0</span>
+          </button>
         </nav>
       </div>
 
-      <div class="space-y-2.5 pt-6 border-t border-[#EFE0E3]">
-        <div class="px-3 py-2 rounded-xl bg-[#FDF9F8] border border-[#EFE0E3] flex items-center justify-between text-[11px]">
-          <span class="font-semibold text-[#4A383C] truncate" id="loggedAdminName">Admin Little U</span>
-          <span class="px-2 py-0.5 rounded-full bg-[#FAF0F2] text-[#C88A96] text-[10px] font-medium">Staff</span>
+      <div class="space-y-3 pt-6 border-t border-[#EFE0E3]">
+        <!-- Current Active Role Card -->
+        <div class="px-3.5 py-2.5 rounded-2xl bg-[#FDF9F8] border border-[#EFE0E3] flex items-center justify-between">
+          <div class="min-w-0 pr-2">
+            <div id="activeUserName" class="text-xs font-bold text-[#4A383C] truncate">Admin Little U</div>
+            <div id="activeUserEmail" class="text-[10px] text-[#7E666B] truncate">admin@littleu.com</div>
+          </div>
+          <span id="activeRoleBadge" class="px-2.5 py-0.5 rounded-full bg-[#FAF0F2] text-[#C88A96] text-[10px] font-bold uppercase shrink-0">ADMIN</span>
         </div>
+
         <div id="apiBadge" class="px-3 py-2 rounded-xl bg-[#FAF0F2] text-[11px] text-[#7E666B] flex items-center gap-2">
           <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
           <span>เชื่อมต่อ API 5062 สำเร็จ</span>
         </div>
-        <a href="/frontend/index.html" class="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-[#EFE0E3] bg-white hover:bg-[#FAF0F2] text-xs font-medium text-[#4A383C] transition">
+
+        <button onclick="handleAdminLogout()" class="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[#FAF0F2] hover:bg-[#F3DCE1] text-xs font-medium text-[#A85A6B] transition cursor-pointer">
+          ออกจากระบบ / สลับ Role
+        </button>
+
+        <a href="/frontend/index.html" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-full border border-[#EFE0E3] bg-white hover:bg-[#FAF0F2] text-xs font-medium text-[#4A383C] transition">
           ← กลับไปหน้าร้านค้า
         </a>
-        <button onclick="logoutAdmin()" class="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[#FAF0F2] hover:bg-[#F3DCE1] text-xs font-medium text-[#A85A6B] transition cursor-pointer">
-          ออกจากระบบ
-        </button>
       </div>
     </aside>
 
@@ -138,8 +152,8 @@
         <button onclick="filterLowStock()" class="text-xs font-semibold text-[#C88A96] hover:underline cursor-pointer">ดูรายการใกล้หมด →</button>
       </div>
 
-      <!-- ==================== DASHBOARD & SALES ANALYTICS ==================== -->
-      <section id="panel-dashboard" class="admin-panel hidden space-y-6">
+      <!-- ==================== DASHBOARD & SALES ANALYTICS (ADMIN ONLY) ==================== -->
+      <section id="panel-dashboard" class="admin-panel admin-only-el hidden space-y-6">
         <div class="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 class="text-2xl font-bold text-[#4A383C]">ภาพรวมและสรุปยอดขาย</h1>
@@ -150,7 +164,6 @@
           </button>
         </div>
 
-        <!-- 4 Main Summary Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <div class="soft-card bg-white rounded-[1.75rem] border border-[#EFE0E3] p-5">
             <div class="text-xs text-[#7E666B]">ยอดขายรวมทั้งหมด</div>
@@ -174,7 +187,6 @@
           </div>
         </div>
 
-        <!-- Status Breakdown + Low Stock Quick Restock -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
           <div class="lg:col-span-6 bg-white rounded-[1.75rem] border border-[#EFE0E3] p-6 space-y-4">
             <div class="flex items-center justify-between">
@@ -193,7 +205,6 @@
           </div>
         </div>
 
-        <!-- Bottom: Recent Orders Table -->
         <div class="bg-white rounded-[1.75rem] border border-[#EFE0E3] p-6 space-y-4">
           <div class="flex items-center justify-between">
             <h2 class="text-sm font-bold text-[#4A383C]">คำสั่งซื้อล่าสุด</h2>
@@ -220,13 +231,13 @@
         <div class="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 class="text-2xl font-bold text-[#4A383C]">จัดการสินค้าและสต็อก</h1>
-            <p class="text-xs text-[#7E666B] mt-0.5">เพิ่ม แก้ไข ปรับสต็อกด่วน ค้นหากรอง และส่งออกไฟล์ CSV</p>
+            <p class="text-xs text-[#7E666B] mt-0.5">ปรับสต็อกด่วน ค้นหากรอง และจัดการรายการสินค้า</p>
           </div>
           <div class="flex flex-wrap items-center gap-2.5">
-            <button onclick="exportCSV('products')" class="px-4 py-2.5 rounded-full bg-white border border-[#EFE0E3] hover:bg-[#FAF0F2] text-xs font-medium text-[#4A383C] cursor-pointer">
+            <button onclick="exportCSV('products')" class="admin-only-el px-4 py-2.5 rounded-full bg-white border border-[#EFE0E3] hover:bg-[#FAF0F2] text-xs font-medium text-[#4A383C] cursor-pointer">
               Export CSV
             </button>
-            <button onclick="openProductForm()" class="px-5 py-2.5 rounded-full bg-[#C88A96] hover:bg-[#B57380] text-white text-xs font-medium shadow-sm cursor-pointer">
+            <button onclick="openProductForm()" class="admin-only-el px-5 py-2.5 rounded-full bg-[#C88A96] hover:bg-[#B57380] text-white text-xs font-medium shadow-sm cursor-pointer">
               + เพิ่มสินค้าใหม่
             </button>
           </div>
@@ -283,7 +294,7 @@
             <h1 class="text-2xl font-bold text-[#4A383C]">คิวงานคัสตอม / สั่งทำพิเศษ (Made to Order)</h1>
             <p class="text-xs text-[#7E666B] mt-0.5">รายการสินค้าและคิวงานสั่งทำพิเศษสำหรับลูกค้า Little U</p>
           </div>
-          <button onclick="exportCSV('custom')" class="px-4 py-2 rounded-full bg-white border border-[#EFE0E3] hover:bg-[#FAF0F2] text-xs font-medium text-[#4A383C] cursor-pointer">
+          <button onclick="exportCSV('custom')" class="admin-only-el px-4 py-2 rounded-full bg-white border border-[#EFE0E3] hover:bg-[#FAF0F2] text-xs font-medium text-[#4A383C] cursor-pointer">
             Export คิวงาน (.CSV)
           </button>
         </div>
@@ -295,10 +306,10 @@
         <div class="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 class="text-2xl font-bold text-[#4A383C]">จัดการคำสั่งซื้อและสถานะการจัดส่ง</h1>
-            <p class="text-xs text-[#7E666B] mt-0.5">อัปเดตสถานะคำสั่งซื้อ กรอกเลขพัสดุ ค้นหา และส่งออก CSV</p>
+            <p class="text-xs text-[#7E666B] mt-0.5">อัปเดตสถานะคำสั่งซื้อ กรอกเลขพัสดุ ค้นหา และติดตามการจัดส่ง</p>
           </div>
           <div class="flex items-center gap-2">
-            <button onclick="exportCSV('orders')" class="px-4 py-2 rounded-full bg-white border border-[#EFE0E3] hover:bg-[#FAF0F2] text-xs font-medium text-[#4A383C] cursor-pointer">
+            <button onclick="exportCSV('orders')" class="admin-only-el px-4 py-2 rounded-full bg-white border border-[#EFE0E3] hover:bg-[#FAF0F2] text-xs font-medium text-[#4A383C] cursor-pointer">
               Export CSV
             </button>
             <button onclick="loadAll()" class="px-4 py-2 rounded-full bg-[#C88A96] text-white text-xs font-medium cursor-pointer">
@@ -334,6 +345,57 @@
                 </tr>
               </thead>
               <tbody id="orderTbody" class="divide-y divide-[#EFE0E3] text-xs"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== STAFF MANAGEMENT (ADMIN ONLY) ==================== -->
+      <section id="panel-staff" class="admin-panel admin-only-el hidden space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 class="text-2xl font-bold text-[#4A383C]">จัดการพนักงานและสิทธิ์การใช้งาน (Staff Management)</h1>
+            <p class="text-xs text-[#7E666B] mt-0.5">เพิ่มบัญชีพนักงาน กำหนดรหัสผ่าน เปิด/ระงับสิทธิ์การเข้าใช้งานระบบหลังบ้าน</p>
+          </div>
+        </div>
+
+        <!-- Add New Staff Form Card -->
+        <form onsubmit="addStaffAccount(event)" class="bg-white rounded-[1.75rem] border border-[#EFE0E3] p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs items-end">
+          <div>
+            <label class="block font-medium mb-1">ชื่อพนักงาน *</label>
+            <input id="stName" type="text" required placeholder="เช่น น้องมายด์ (ฝ่ายแพ็กสินค้า)" class="w-full px-3.5 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
+          </div>
+          <div>
+            <label class="block font-medium mb-1">อีเมลสำหรับล็อกอิน *</label>
+            <input id="stEmail" type="email" required placeholder="เช่น mind@littleu.com" class="w-full px-3.5 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
+          </div>
+          <div>
+            <label class="block font-medium mb-1">รหัสผ่าน *</label>
+            <input id="stPass" type="text" required value="1234" placeholder="กำหนดรหัสผ่าน" class="w-full px-3.5 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
+          </div>
+          <div>
+            <label class="block font-medium mb-1">ตำแหน่ง / หน้าที่</label>
+            <input id="stPosition" type="text" value="พนักงานแพ็กสินค้า &amp; จัดส่ง" class="w-full px-3.5 py-2 bg-[#FDF9F8] border border-[#EFE0E3] rounded-xl focus:outline-none focus:border-[#C88A96]" />
+          </div>
+          <button type="submit" class="w-full py-2.5 px-4 rounded-full bg-[#C88A96] hover:bg-[#B57380] text-white font-semibold shadow-sm cursor-pointer">
+            + เพิ่มพนักงาน
+          </button>
+        </form>
+
+        <!-- Staff Table -->
+        <div class="bg-white rounded-[1.75rem] border border-[#EFE0E3] overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-[#FAF0F2]/70 border-b border-[#EFE0E3] text-[11px] font-semibold text-[#7E666B] uppercase">
+                  <th class="py-3.5 px-5">ชื่อผู้ใช้งาน</th>
+                  <th class="py-3.5 px-4">อีเมล / รหัสผ่าน</th>
+                  <th class="py-3.5 px-4">บทบาท (Role) / ตำแหน่ง</th>
+                  <th class="py-3.5 px-4">สถานะบัญชี</th>
+                  <th class="py-3.5 px-5 text-right">จัดการสิทธิ์</th>
+                </tr>
+              </thead>
+              <tbody id="staffTbody" class="divide-y divide-[#EFE0E3] text-xs"></tbody>
             </table>
           </div>
         </div>
@@ -415,8 +477,14 @@
     const API = 'http://localhost:5062/api';
     const FALLBACK = '/frontend/public/FixHerd.jpg';
     const STATUS_OPTIONS = ['Pending', 'Processing', 'Paid', 'Shipped', 'Delivered', 'Completed', 'Cancelled'];
-    const ADMIN_SESSION_KEY = 'lu_admin_session';
 
+    const DEFAULT_ACCOUNTS = [
+      { email: 'admin@littleu.com', pass: '1234', role: 'ADMIN', name: 'Admin Little U', position: 'เจ้าของร้าน / ผู้ดูแลระบบสูงสุด', active: true, locked: true },
+      { email: 'staff@littleu.com', pass: '1234', role: 'STAFF', name: 'Staff Little U', position: 'พนักงานจัดการออเดอร์ & สต็อก', active: true, locked: false }
+    ];
+
+    let staffAccounts = JSON.parse(localStorage.getItem('lu_staff_accounts') || 'null') || DEFAULT_ACCOUNTS;
+    let currentSession = JSON.parse(localStorage.getItem('lu_backoffice_session') || 'null');
     let products = [];
     let orders = [];
     let orderMeta = JSON.parse(localStorage.getItem('lu_order_meta') || '{}');
@@ -426,65 +494,162 @@
 
     const baht = (n) => '฿' + Number(n || 0).toLocaleString();
 
-    function checkAdminAuth() {
-      const session = JSON.parse(localStorage.getItem(ADMIN_SESSION_KEY) || 'null');
-      const gate = document.getElementById('adminLoginGate');
-      const app = document.getElementById('adminAppWrapper');
-      if (session?.loggedIn) {
-        gate.classList.add('hidden');
-        app.classList.remove('hidden');
-        document.getElementById('loggedAdminName').textContent = session.name || 'Admin Little U';
-        loadAll();
-      } else {
-        app.classList.add('hidden');
-        gate.classList.remove('hidden');
-      }
+    function saveStaffAccounts() {
+      localStorage.setItem('lu_staff_accounts', JSON.stringify(staffAccounts));
+      renderLoginAccountButtons();
+      renderStaffTable();
     }
 
-    function fillDemoAdmin() {
-      document.getElementById('adminUserInp').value = 'admin@littleu.com';
-      document.getElementById('adminPassInp').value = '1234';
-      document.getElementById('adminLoginErr').classList.add('hidden');
+    function renderLoginAccountButtons() {
+      const box = document.getElementById('quickAccountList');
+      if (!box) return;
+      const activeList = staffAccounts.filter(a => a.active);
+      box.innerHTML = activeList.map(acc => `
+        <button type="button" onclick="fillDemoAccount('${acc.email}', '${acc.pass}')" class="p-2.5 rounded-xl border border-[#EFE0E3] bg-[#FDF9F8] hover:bg-[#FAF0F2] text-left transition cursor-pointer">
+          <div class="font-bold ${acc.role === 'ADMIN' ? 'text-[#C88A96]' : 'text-[#3E7A5A]'}">${acc.role}: ${acc.name}</div>
+          <div class="text-[#7E666B] truncate">${acc.email}</div>
+        </button>
+      `).join('');
+    }
+
+    function fillDemoAccount(email, pass) {
+      document.getElementById('adminEmail').value = email;
+      document.getElementById('adminPass').value = pass || '1234';
+      document.getElementById('loginErrorMsg').classList.add('hidden');
     }
 
     function handleAdminLogin(e) {
       e.preventDefault();
-      const user = document.getElementById('adminUserInp').value.trim().toLowerCase();
-      const pass = document.getElementById('adminPassInp').value.trim();
-      const validUsers = ['admin@littleu.com', 'admin', 'staff@littleu.com', 'staff'];
-      if (validUsers.includes(user) && pass === '1234') {
-        const displayName = user.startsWith('staff') ? 'Staff Little U' : 'Admin Little U';
-        localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify({ loggedIn: true, email: user, name: displayName }));
-        document.getElementById('adminLoginErr').classList.add('hidden');
-        checkAdminAuth();
-      } else {
-        document.getElementById('adminLoginErr').classList.remove('hidden');
+      const email = (document.getElementById('adminEmail').value || '').trim().toLowerCase();
+      const pass = document.getElementById('adminPass').value || '';
+      const acc = staffAccounts.find(a => a.email.toLowerCase() === email);
+      if (!acc || acc.pass !== pass || !acc.active) {
+        document.getElementById('loginErrorMsg').classList.remove('hidden');
+        return;
       }
+      document.getElementById('loginErrorMsg').classList.add('hidden');
+      currentSession = { email: acc.email, role: acc.role, name: acc.name };
+      localStorage.setItem('lu_backoffice_session', JSON.stringify(currentSession));
+      applyRolePermissions();
+      loadAll();
     }
 
-    function logoutAdmin() {
-      localStorage.removeItem(ADMIN_SESSION_KEY);
-      document.getElementById('adminPassInp').value = '';
-      checkAdminAuth();
+    function handleAdminLogout() {
+      currentSession = null;
+      localStorage.removeItem('lu_backoffice_session');
+      renderLoginAccountButtons();
+      document.getElementById('adminAppShell').classList.add('hidden');
+      document.getElementById('adminLoginGate').classList.remove('hidden');
+    }
+
+    function applyRolePermissions() {
+      renderLoginAccountButtons();
+      if (!currentSession) {
+        document.getElementById('adminLoginGate').classList.remove('hidden');
+        document.getElementById('adminAppShell').classList.add('hidden');
+        return;
+      }
+      document.getElementById('adminLoginGate').classList.add('hidden');
+      document.getElementById('adminAppShell').classList.remove('hidden');
+
+      const isAdmin = currentSession.role === 'ADMIN';
+      document.getElementById('studioRoleLabel').textContent = isAdmin ? 'Admin Studio' : 'Staff Workspace';
+      document.getElementById('activeUserName').textContent = currentSession.name;
+      document.getElementById('activeUserEmail').textContent = currentSession.email;
+      const badge = document.getElementById('activeRoleBadge');
+      badge.textContent = currentSession.role;
+      badge.className = isAdmin
+        ? 'px-2.5 py-0.5 rounded-full bg-[#FAF0F2] text-[#C88A96] text-[10px] font-bold uppercase shrink-0'
+        : 'px-2.5 py-0.5 rounded-full bg-[#EEF8F2] text-[#3E7A5A] text-[10px] font-bold uppercase shrink-0';
+
+      document.querySelectorAll('.admin-only-el').forEach(el => {
+        el.classList.toggle('hidden', !isAdmin);
+      });
+
+      renderStaffTable();
+      switchTab(isAdmin ? 'dashboard' : 'orders');
+    }
+
+    function renderStaffTable() {
+      const badge = document.getElementById('staffCountBadge');
+      if (badge) badge.textContent = staffAccounts.length;
+      const tbody = document.getElementById('staffTbody');
+      if (!tbody) return;
+
+      tbody.innerHTML = staffAccounts.map((acc, idx) => {
+        const isAdmin = acc.role === 'ADMIN';
+        const actions = acc.locked
+          ? `<span class="text-[11px] text-[#7E666B]">บัญชีหลักของระบบ</span>`
+          : `<button onclick="toggleStaffStatus(${idx})" class="px-3 py-1 rounded-full bg-[#FAF0F2] hover:bg-[#F3DCE1] text-[#C88A96] text-[11px] font-medium cursor-pointer">
+               ${acc.active ? 'ระงับสิทธิ์' : 'เปิดใช้งาน'}
+             </button>
+             <button onclick="deleteStaffAccount(${idx})" class="px-3 py-1 rounded-full border border-[#EFE0E3] hover:bg-[#FAF0F2] text-[#7E666B] text-[11px] cursor-pointer">
+               ลบ
+             </button>`;
+
+        return `
+          <tr class="hover:bg-[#FAF0F2]/40 transition">
+            <td class="py-3.5 px-5 font-semibold text-[#4A383C]">${acc.name}</td>
+            <td class="py-3.5 px-4">
+              <div class="text-[#4A383C]">${acc.email}</div>
+              <div class="text-[11px] text-[#7E666B]">รหัสผ่าน: ${acc.pass}</div>
+            </td>
+            <td class="py-3.5 px-4">
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${isAdmin ? 'bg-[#FAF0F2] text-[#C88A96]' : 'bg-[#EEF8F2] text-[#3E7A5A]'}">${acc.role}</span>
+              <div class="text-[11px] text-[#7E666B] mt-0.5">${acc.position || '-'}</div>
+            </td>
+            <td class="py-3.5 px-4">
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-medium ${acc.active ? 'bg-[#EEF8F2] text-[#3E7A5A]' : 'bg-[#F5F2F3] text-[#7A6A6E]'}">
+                ${acc.active ? 'ใช้งานได้ (Active)' : 'ถูกระงับ (Suspended)'}
+              </span>
+            </td>
+            <td class="py-3.5 px-5 text-right space-x-1">${actions}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function addStaffAccount(e) {
+      e.preventDefault();
+      if (currentSession?.role !== 'ADMIN') return;
+      const name = document.getElementById('stName').value.trim();
+      const email = document.getElementById('stEmail').value.trim().toLowerCase();
+      const pass = document.getElementById('stPass').value.trim();
+      const position = document.getElementById('stPosition').value.trim();
+      if (!name || !email || !pass) return;
+      if (staffAccounts.some(a => a.email.toLowerCase() === email)) {
+        alert('อีเมลนี้มีอยู่ในระบบแล้วครับ');
+        return;
+      }
+      staffAccounts.push({ email, pass, role: 'STAFF', name, position, active: true, locked: false });
+      saveStaffAccounts();
+      document.getElementById('stName').value = '';
+      document.getElementById('stEmail').value = '';
+      document.getElementById('stPass').value = '1234';
+    }
+
+    function toggleStaffStatus(idx) {
+      if (currentSession?.role !== 'ADMIN') return;
+      if (!staffAccounts[idx] || staffAccounts[idx].locked) return;
+      staffAccounts[idx].active = !staffAccounts[idx].active;
+      saveStaffAccounts();
+    }
+
+    function deleteStaffAccount(idx) {
+      if (currentSession?.role !== 'ADMIN') return;
+      if (!staffAccounts[idx] || staffAccounts[idx].locked) return;
+      if (!confirm(`ยืนยันการลบบัญชีพนักงาน "${staffAccounts[idx].name}"?`)) return;
+      staffAccounts.splice(idx, 1);
+      saveStaffAccounts();
     }
 
     function getStatusStyle(status) {
       const s = String(status || 'PENDING').toUpperCase();
-      if (s.includes('COMP') || s.includes('DELIV')) {
-        return { bg: '#EEF8F2', text: '#3E7A5A', bar: '#A8D8BE' };
-      }
-      if (s.includes('PAID')) {
-        return { bg: '#F0F7FC', text: '#4A7496', bar: '#B7D7EE' };
-      }
-      if (s.includes('SHIP')) {
-        return { bg: '#F6F2FC', text: '#6E5699', bar: '#D2C4EB' };
-      }
-      if (s.includes('PROC')) {
-        return { bg: '#FEF6EC', text: '#9C6B32', bar: '#F3D4A8' };
-      }
-      if (s.includes('CANC')) {
-        return { bg: '#F5F2F3', text: '#7A6A6E', bar: '#DDD3D6' };
-      }
+      if (s.includes('COMP') || s.includes('DELIV')) return { bg: '#EEF8F2', text: '#3E7A5A', bar: '#A8D8BE' };
+      if (s.includes('PAID')) return { bg: '#F0F7FC', text: '#4A7496', bar: '#B7D7EE' };
+      if (s.includes('SHIP')) return { bg: '#F6F2FC', text: '#6E5699', bar: '#D2C4EB' };
+      if (s.includes('PROC')) return { bg: '#FEF6EC', text: '#9C6B32', bar: '#F3D4A8' };
+      if (s.includes('CANC')) return { bg: '#F5F2F3', text: '#7A6A6E', bar: '#DDD3D6' };
       return { bg: '#FDF2F4', text: '#A85A6B', bar: '#EABAC4' };
     }
 
@@ -497,17 +662,21 @@
     }
 
     function switchTab(tab) {
+      if ((tab === 'dashboard' || tab === 'staff') && currentSession?.role !== 'ADMIN') tab = 'orders';
       document.querySelectorAll('.admin-panel').forEach(p => p.classList.add('hidden'));
       document.getElementById(`panel-${tab}`)?.classList.remove('hidden');
       document.querySelectorAll('.nav-item').forEach(btn => {
+        const isAdminOnly = btn.classList.contains('admin-only-el');
+        if (isAdminOnly && currentSession?.role !== 'ADMIN') return;
         const active = btn.dataset.tab === tab;
         btn.className = active
-          ? 'nav-item w-full flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl bg-[#FAF0F2] text-[#C88A96] font-semibold transition cursor-pointer'
-          : 'nav-item w-full flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl text-[#7E666B] hover:bg-[#FAF0F2] hover:text-[#4A383C] transition cursor-pointer';
+          ? `nav-item ${isAdminOnly ? 'admin-only-el ' : ''}w-full flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl bg-[#FAF0F2] text-[#C88A96] font-semibold transition cursor-pointer`
+          : `nav-item ${isAdminOnly ? 'admin-only-el ' : ''}w-full flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl text-[#7E666B] hover:bg-[#FAF0F2] hover:text-[#4A383C] transition cursor-pointer`;
       });
       if (tab === 'custom') renderCustomQueue();
       if (tab === 'orders') renderOrders();
       if (tab === 'dashboard') renderDashboard();
+      if (tab === 'staff') renderStaffTable();
     }
 
     async function loadAll() {
@@ -663,6 +832,7 @@
       const cat = document.getElementById('pCat')?.value || 'ALL';
       const type = document.getElementById('pType')?.value || 'ALL';
       const sf = document.getElementById('pStockFilter')?.value || 'ALL';
+      const isAdmin = currentSession?.role === 'ADMIN';
 
       const list = products.filter(p => {
         const st = Number(p.stock ?? 0);
@@ -681,6 +851,11 @@
 
       tbody.innerHTML = list.map(p => {
         const st = Number(p.stock ?? 0);
+        const actionBtns = isAdmin
+          ? `<button onclick="openProductForm('${p.id}')" class="px-3 py-1 rounded-full bg-[#FAF0F2] hover:bg-[#F3DCE1] text-[#C88A96] text-[11px] font-medium cursor-pointer">แก้ไข</button>
+             <button onclick="removeProduct('${p.id}')" class="px-3 py-1 rounded-full border border-[#EFE0E3] hover:bg-[#FAF0F2] text-[#7E666B] text-[11px] cursor-pointer">ลบ</button>`
+          : `<span class="text-[11px] text-[#7E666B]">สิทธิ์ Staff (ปรับสต็อกได้)</span>`;
+
         return `
           <tr class="hover:bg-[#FAF0F2]/40 transition">
             <td class="py-3 px-5">
@@ -702,10 +877,7 @@
                 <button onclick="quickAdjustStock('${p.id}', 1)" class="w-5 h-5 rounded-full hover:bg-[#FAF0F2] font-bold cursor-pointer">+</button>
               </div>
             </td>
-            <td class="py-3 px-5 text-right space-x-1">
-              <button onclick="openProductForm('${p.id}')" class="px-3 py-1 rounded-full bg-[#FAF0F2] hover:bg-[#F3DCE1] text-[#C88A96] text-[11px] font-medium cursor-pointer">แก้ไข</button>
-              <button onclick="removeProduct('${p.id}')" class="px-3 py-1 rounded-full border border-[#EFE0E3] hover:bg-[#FAF0F2] text-[#7E666B] text-[11px] cursor-pointer">ลบ</button>
-            </td>
+            <td class="py-3 px-5 text-right space-x-1">${actionBtns}</td>
           </tr>
         `;
       }).join('');
@@ -730,6 +902,7 @@
     }
 
     function openProductForm(id = '') {
+      if (currentSession?.role !== 'ADMIN') return;
       const fileInput = document.getElementById('fImgFile');
       if (fileInput) fileInput.value = '';
       document.getElementById('editProdId').value = id;
@@ -801,10 +974,6 @@
           }
         }
         closeProductForm();
-        if (!id) {
-          window.location.href = '/frontend/index.html';
-          return;
-        }
         await loadAll();
       } catch (e) {
         alert(e.message);
@@ -812,6 +981,7 @@
     }
 
     async function removeProduct(id) {
+      if (currentSession?.role !== 'ADMIN') return;
       if (!confirm('ยืนยันการลบสินค้านี้?')) return;
       try {
         const res = await fetch(`${API}/products/${id}`, { method: 'DELETE' });
@@ -914,10 +1084,7 @@
       const nextTracking = tracking ?? prev.tracking ?? '';
       const shortCode = String(orderId || '').slice(0, 8).toUpperCase();
 
-      const entry = {
-        status: nextStatus,
-        tracking: nextTracking
-      };
+      const entry = { status: nextStatus, tracking: nextTracking };
       orderMeta[orderId] = entry;
       if (shortCode) {
         orderMeta[shortCode] = entry;
@@ -984,7 +1151,8 @@
       URL.revokeObjectURL(url);
     }
 
-    checkAdminAuth();
+    applyRolePermissions();
+    if (currentSession) loadAll();
   </script>
 </body>
 </html>
